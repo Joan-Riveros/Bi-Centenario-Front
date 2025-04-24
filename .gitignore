@@ -1,0 +1,40 @@
+# 🚫 Node modules
+node_modules/
+
+# 🛠️ Vite build output
+dist/
+dist-ssr/
+
+# 🧪 Testing
+coverage/
+
+# ⚠️ Environment variables
+.env
+.env.*.local
+.env.local
+
+# ⚙️ Log files
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 🔧 VSCode & IDEs
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.log
+
+# 🍏 MacOS & Windows trash
+.DS_Store
+Thumbs.db
+
+# 📦 Package manager lockfiles (opcional si usás uno fijo)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
