@@ -1,35 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider} from './context/AuthContext.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+import MainLayout from './layouts/MainLayout.jsx';
+import AdminLayout from './layouts/AdminLayout.jsx';
 
+import HomePage from './pages/HomePage.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx'; 
+import RecoverPassword from './pages/RecoverPassword.jsx';
+import ResetPassword from './pages/ResetPassword.jsx';
+
+import AdminUsers from './pages/admin/AdminUsers.jsx';
+import VisitanteInicio from './pages/visitante/VisitanteInicio.jsx';
+import InvestigadorDashboard from './pages/investigador/InvestigadorDashboard.jsx';
+
+import ProtectedRoute from './routes/ProtectedRoute.jsx';
+import AccessDenied from './pages/AccessDenied.jsx';
+
+function AppRoutes() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+      <Route path="/login" element={<MainLayout><Login /></MainLayout>} />
+      <Route path="/register" element={<MainLayout><Register /></MainLayout>} />
+      <Route path="/recover-password" element={<MainLayout><RecoverPassword /></MainLayout>} />
+      <Route path="/reset-password" element={<MainLayout><ResetPassword /></MainLayout>} />
+      <Route path="/403" element={<MainLayout><AccessDenied /></MainLayout>} />
+
+      <Route
+        path="/admin-users"
+        element={
+          <ProtectedRoute allowedRoles={['Admin']}>
+            <AdminLayout>
+              <AdminUsers />
+            </AdminLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/investigador"
+        element={
+          <ProtectedRoute allowedRoles={['Investigador']}>
+            <MainLayout>
+              <InvestigadorDashboard />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/inicio-visitante"
+        element={
+          <ProtectedRoute allowedRoles={['Visitante']}>
+            <MainLayout>
+              <VisitanteInicio />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
+  );
+}
+
+export default App;
