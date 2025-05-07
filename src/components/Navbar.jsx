@@ -23,7 +23,7 @@ function Navbar() {
     return (
         <nav className="flex justify-between items-center px-8 py-4 bg-primary text-white sticky top-0 z-50 shadow-md font-medium tracking-wide">
             <div className="text-2xl font-bold">
-                <Link to="/" className="hover:text-secondary transition-colors duration-300">
+                <Link to="/" className="text-white hover:text-secondary transition-colors duration-300">
                     Repositorio Bicentenario
                 </Link>
             </div>
@@ -39,6 +39,23 @@ function Navbar() {
                         </Link>
                     </li>
                 )}
+                <li>
+                    <Link
+                        to="/inicio-visitor"
+                        className="text-white hover:text-secondary text-base transition-colors duration-300"
+                    >
+                        Inicio Visitante
+                    </Link>
+                </li>
+
+                <li>
+                    <Link
+                        to="/search"
+                        className="text-white hover:text-secondary text-base transition-colors duration-300"
+                    >
+                        Buscar
+                    </Link>
+                </li>
 
                 <li className="relative" ref={settingsRef}>
                     <button

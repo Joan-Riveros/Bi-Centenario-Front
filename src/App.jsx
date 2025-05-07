@@ -13,11 +13,16 @@ import RecoverPassword from './pages/RecoverPassword.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 
 import AdminUsers from './pages/admin/AdminUsers.jsx';
-import VisitanteInicio from './pages/visitante/VisitanteInicio.jsx';
+
+import VisitorHome from './pages/visitor/VisitorHome.jsx';
+import DocumentDetail from './pages/visitor/DocumentDetail';
+
 import InvestigadorDashboard from './pages/investigador/InvestigadorDashboard.jsx';
 
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import AccessDenied from './pages/AccessDenied.jsx';
+
+import SearchDocuments from './pages/search/SearchDocuments.jsx';
 
 function AppRoutes() {
   return (
@@ -28,6 +33,9 @@ function AppRoutes() {
       <Route path="/recover-password" element={<MainLayout><RecoverPassword /></MainLayout>} />
       <Route path="/reset-password" element={<MainLayout><ResetPassword /></MainLayout>} />
       <Route path="/403" element={<MainLayout><AccessDenied /></MainLayout>} />
+      <Route path="/inicio-visitor" element={<MainLayout><VisitorHome /></MainLayout>} />
+      <Route path="/documento/:id" element={<MainLayout><DocumentDetail /></MainLayout>} />    
+      <Route path="/search" element={<MainLayout><SearchDocuments /></MainLayout>}/>
 
       <Route
         path="/admin-users"
@@ -52,11 +60,11 @@ function AppRoutes() {
       />
 
       <Route
-        path="/inicio-visitante"
+        path="/inicio-visitor"
         element={
-          <ProtectedRoute allowedRoles={['Visitante']}>
+          <ProtectedRoute allowedRoles={['Visitor']}>
             <MainLayout>
-              <VisitanteInicio />
+              <VisitorHome />
             </MainLayout>
           </ProtectedRoute>
         }

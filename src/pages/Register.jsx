@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import AuthWrapper from '../components/AuthWrapper.jsx';
-
+import Button from '../components/Button';
 
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
@@ -88,12 +88,16 @@ function Register() {
                     </label>
                 </div>
 
-                <button
+                <Button
                     type="submit"
-                    className="w-full bg-primary hover:bg-primary-hover text-white font-medium py-3 rounded-md transition-colors duration-300"
+                    className="w-full py-3 text-base"
+                    color="bg-primary"
+                    border="border-orange-500"
+                    shadow="shadow-orange-300"
+                    variant='primary'
                 >
                     Registrarse
-                </button>
+                </Button>
 
                 <Link to="/" className="block text-center mt-4 text-sm text-primary hover:text-primary-hover transition-colors">
                     ⬅️ Volver a Home

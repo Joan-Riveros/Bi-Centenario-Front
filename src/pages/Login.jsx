@@ -55,7 +55,7 @@ function Login() {
                         placeholder="********"
                         required
                     />
-                    <button type="button" onClick={togglePasswordVisibility} className="absolute top-10 right-3 text-gray-600 dark:text-gray-300">
+                    <button type="button" onClick={togglePasswordVisibility} className="absolute top-8 right-3 text-gray-600 dark:text-gray-300">
                         {showPassword ? <HiEyeOff size={24} /> : <HiEye size={24} />}
                     </button>
                 </div>
@@ -72,6 +72,7 @@ function Login() {
                     color="bg-primary"
                     border="border-orange-500"
                     shadow="shadow-orange-300"
+                    variant='primary'
                 >
                     Entrar
                 </Button>
@@ -82,7 +83,7 @@ function Login() {
                 </div>
 
                 <Link to="/" className="block text-center mt-4 text-sm text-primary hover:text-primary-hover transition-colors">
-                    ⬅️ Volver a Home
+                    Volver a Home
                 </Link>
             </form>
         </AuthWrapper>
