@@ -11,10 +11,11 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx'; 
 import RecoverPassword from './pages/RecoverPassword.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
+import UserProfile from './pages/profile/UserProfile.jsx';
 
 import AdminUsers from './pages/admin/AdminUsers.jsx';
+import UploadDocument from './pages/admin/UploadDocument.jsx';
 
-import VisitorHome from './pages/visitor/VisitorHome.jsx';
 import DocumentDetail from './pages/visitor/DocumentDetail';
 
 import InvestigadorDashboard from './pages/investigador/InvestigadorDashboard.jsx';
@@ -33,9 +34,9 @@ function AppRoutes() {
       <Route path="/recover-password" element={<MainLayout><RecoverPassword /></MainLayout>} />
       <Route path="/reset-password" element={<MainLayout><ResetPassword /></MainLayout>} />
       <Route path="/403" element={<MainLayout><AccessDenied /></MainLayout>} />
-      <Route path="/inicio-visitor" element={<MainLayout><VisitorHome /></MainLayout>} />
       <Route path="/documento/:id" element={<MainLayout><DocumentDetail /></MainLayout>} />    
       <Route path="/search" element={<MainLayout><SearchDocuments /></MainLayout>}/>
+      <Route path="/admin/upload" element={<AdminLayout><UploadDocument /></AdminLayout>} />
 
       <Route
         path="/admin-users"
@@ -60,11 +61,11 @@ function AppRoutes() {
       />
 
       <Route
-        path="/inicio-visitor"
+        path="/profile"
         element={
-          <ProtectedRoute allowedRoles={['Visitor']}>
+          <ProtectedRoute allowedRoles={['Admin', 'Investigador', 'Visitante']}>
             <MainLayout>
-              <VisitorHome />
+              <UserProfile />
             </MainLayout>
           </ProtectedRoute>
         }

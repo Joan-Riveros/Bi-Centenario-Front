@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const documentos = [
     { id: 1, titulo: "Acta de Independencia", autor: "Asamblea 1825", fecha: "1825", etiquetas: ["Historia", "Independencia"] },
@@ -75,9 +76,10 @@ function SearchDocuments() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {filteredDocs.length > 0 ? (
                 filteredDocs.map((doc) => (
-                    <div
+                    <Link
+                        to={`/documento/${doc.id}`}
                         key={doc.id}
-                        className="rounded-xl border border-orange-300 bg-white dark:bg-darkSecondary p-5 transition hover:scale-[1.02] hover:shadow-md hover:border-primary duration-200 cursor-pointer"
+                        className="group rounded-xl border border-orange-300 bg-white dark:bg-darkSecondary p-5 transition transform hover:scale-[1.03] hover:shadow-lg hover:border-primary duration-200 cursor-pointer block"
                     >
                         <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                             {doc.titulo}
@@ -90,15 +92,15 @@ function SearchDocuments() {
                         </p>
                         <div className="flex gap-1 flex-wrap mt-2">
                             {doc.etiquetas.map((tag, i) => (
-                                <span
-                                    key={i}
-                                    className="bg-orange-100 dark:bg-orange-700 text-orange-800 dark:text-white text-xs px-2 py-1 rounded-full"
-                                >
-                                    #{tag}
-                                </span>
+                            <span
+                                key={i}
+                                className="bg-orange-100 dark:bg-orange-700 text-orange-800 dark:text-white text-xs px-2 py-1 rounded-full"
+                            >
+                                #{tag}
+                            </span>
                             ))}
                         </div>
-                    </div>
+                    </Link>
                 ))
                 ) : (
                 <p className="text-center text-gray-500 dark:text-gray-400 col-span-full">

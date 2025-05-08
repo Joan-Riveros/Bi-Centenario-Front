@@ -20,32 +20,40 @@ function HomePage() {
                 <source src={fondoVideo} type="video/mp4" />
                 Tu navegador no soporta video HTML5.
             </video>
-            <h1 className="text-3xl font-bold text-gray-800 dark:text-white text-center">
-                Bienvenido al Repositorio Bicentenario
-            </h1>
-    
-            <p className="text-center text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Explora documentos históricos digitalizados de Bolivia. Aquí encontrarás actas, cartas, decretos y más archivos relevantes del proceso de independencia y fundación de la república.
-            </p>
-    
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {documentosRecomendados.map((doc) => (
-                    <Link
-                        to={`/documento/${doc.id}`}
-                        key={doc.id}
-                        className="rounded-xl border border-orange-300 bg-white dark:bg-darkSecondary p-5 transition hover:scale-[1.02] hover:shadow-md hover:border-primary duration-200 cursor-pointer block"
-                    >
-                        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                            {doc.titulo}
-                        </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
-                            <strong>Autor:</strong> {doc.autor}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
-                            <strong>Fecha:</strong> {doc.fecha}
-                        </p>
-                    </Link>
-                ))}
+            
+            <div className="text-center space-y-4">
+                <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+                    Repositorio Bicentenario de Bolivia
+                </h1>
+                <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    Explora documentos históricos digitalizados de Bolivia. Aquí encontrarás actas, cartas, decretos y más archivos relevantes del proceso de independencia y fundación de la república.
+                </p>
+            </div>
+
+            <div>
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 text-center">
+                    Documentos Recomendados del Bicentenario
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {documentosRecomendados.map((doc) => (
+                        <Link
+                            to={`/documento/${doc.id}`}
+                            key={doc.id}
+                            className="rounded-xl border border-orange-300 bg-white dark:bg-darkSecondary p-5 transition hover:scale-[1.02] hover:shadow-md hover:border-primary duration-200 cursor-pointer block"
+                        >
+                            <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                                {doc.titulo}
+                            </h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                                <strong>Autor:</strong> {doc.autor}
+                            </p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                                <strong>Fecha:</strong> {doc.fecha}
+                            </p>
+                        </Link>
+                    ))}
+                </div>
             </div>
         </div>
     );

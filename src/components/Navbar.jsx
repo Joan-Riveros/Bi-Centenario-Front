@@ -7,13 +7,16 @@ function Navbar() {
     const { user, logout } = useAuth();
     const [showSettings, setShowSettings] = useState(false);
     const settingsRef = useRef(null);
-
-    const toggleSettings = () => setShowSettings(!showSettings);
+    const [showUserMenu, setShowUserMenu] = useState(false);
+    const userMenuRef = useRef(null)
 
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (settingsRef.current && !settingsRef.current.contains(event.target)) {
                 setShowSettings(false);
+            }
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+                setShowUserMenu(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -29,25 +32,6 @@ function Navbar() {
             </div>
 
             <ul className="flex items-center space-x-6">
-                {user?.role === 'Admin' && (
-                    <li>
-                        <Link
-                            to="/admin-users"
-                            className="text-white hover:text-secondary text-base transition-colors duration-300"
-                        >
-                            Administración de usuarios
-                        </Link>
-                    </li>
-                )}
-                <li>
-                    <Link
-                        to="/inicio-visitor"
-                        className="text-white hover:text-secondary text-base transition-colors duration-300"
-                    >
-                        Inicio Visitante
-                    </Link>
-                </li>
-
                 <li>
                     <Link
                         to="/search"
@@ -56,10 +40,31 @@ function Navbar() {
                         Buscar
                     </Link>
                 </li>
+                {user?.role === 'Admin' && (
+                    <>
+                        <li>
+                            <Link
+                                to="/admin/upload"
+                                className="text-white hover:text-secondary text-base transition-colors duration-300"
+                            >
+                                Subir documento
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/admin-users"
+                                className="text-white hover:text-secondary text-base transition-colors duration-300"
+                            >
+                                Administración de usuarios
+                            </Link>
+                            
+                        </li>
+                    </>
+                )}
 
                 <li className="relative" ref={settingsRef}>
                     <button
-                        onClick={toggleSettings}
+                        onClick={() => setShowSettings((prev) => !prev)}
                         className="text-sm text-white border border-white/30 px-3 py-1.5 rounded-md hover:border-secondary transition-all"
                     >
                         Ajustes
@@ -87,23 +92,46 @@ function Navbar() {
                     <ThemeSwitch />
                 </li>
 
-                <li>
-                {user ? (
-                    <button
-                        onClick={logout}
-                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-sm"
-                    >
-                        Cerrar sesión
-                    </button>
-                ) : (
-                    <Link
-                        to="/login"
-                        className="bg-secondary hover:bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-sm"
-                    >
-                        Login
-                    </Link>
-                )}
+                <li className="relative" ref={userMenuRef}>
+                    {user ? (
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowUserMenu((prev) => !prev)}
+                                className="bg-secondary hover:bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-sm"
+                            >
+                                {user.email.split('@')[0]}
+                            </button>
+
+                            {showUserMenu && (
+                                <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-darkSecondary text-gray-900 dark:text-white rounded-lg shadow-lg border border-gray-300 dark:border-gray-700 z-50">
+                                    <Link
+                                        to="/profile"
+                                        className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-t"
+                                    >
+                                        Perfil
+                                    </Link>
+                                    <button
+                                        onClick={() => {
+                                            setShowUserMenu(false);
+                                            logout();
+                                        }}
+                                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b"
+                                    >
+                                        Cerrar sesión
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="bg-secondary hover:bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-sm"
+                        >
+                            Login
+                        </Link>
+                    )}
                 </li>
+
             </ul>
         </nav>
     );
