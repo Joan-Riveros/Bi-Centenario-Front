@@ -54,7 +54,7 @@ function Register() {
                     <button
                         type="button"
                         onClick={togglePasswordVisibility}
-                        className="absolute top-10 right-3 text-gray-600 dark:text-gray-300"
+                        className="absolute top-8 right-3 text-gray-600 dark:text-gray-300"
                         >
                         {showPassword ? <HiEyeOff size={24} /> : <HiEye size={24} />}
                     </button>
@@ -71,7 +71,7 @@ function Register() {
                     <button
                         type="button"
                         onClick={toggleConfirmPasswordVisibility}
-                        className="absolute top-10 right-3 text-gray-600 dark:text-gray-300"
+                        className="absolute top-8 right-3 text-gray-600 dark:text-gray-300"
                         >
                         {showConfirmPassword ? <HiEyeOff size={24} /> : <HiEye size={24} />}
                     </button>

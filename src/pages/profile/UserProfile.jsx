@@ -5,11 +5,14 @@ import { FiUser, FiMail, FiLock } from 'react-icons/fi';
 function UserProfile() {
     const { user } = useAuth();
 
-    const currentUser = user || {
-        nombre: 'Nombre Ejemplo',
+    // Fallback si no hay usuario aún (previene errores de lectura de propiedades)
+    const currentUser = user ?? {
+        nombre: 'Usuario Invitado',
         email: 'correo@ejemplo.com',
         role: 'Visitante',
     };
+
+    const inicial = currentUser?.nombre?.[0] || currentUser?.email?.[0] || '?';
 
     return (
         <div className="max-w-3xl mx-auto px-6 py-12">
@@ -20,7 +23,7 @@ function UserProfile() {
 
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     <div className="flex-shrink-0 w-28 h-28 bg-gradient-to-br from-primary to-secondary text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-md">
-                        {currentUser.nombre[0]}
+                        {inicial}
                     </div>
 
                     <div className="flex-1 space-y-4">

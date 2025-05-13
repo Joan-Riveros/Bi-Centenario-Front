@@ -105,7 +105,7 @@ function Navbar() {
                             {showUserMenu && (
                                 <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-darkSecondary text-gray-900 dark:text-white rounded-lg shadow-lg border border-gray-300 dark:border-gray-700 z-50">
                                     <Link
-                                        to="/profile"
+                                        to="profile"
                                         className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-t"
                                     >
                                         Perfil
