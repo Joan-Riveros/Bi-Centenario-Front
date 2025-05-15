@@ -5,21 +5,20 @@ import { useAuth } from '../context/AuthContext.jsx';
 function ProtectedRoute({ children, allowedRoles }) {
     const { user } = useAuth();
 
-    // No logueado
+    
     if (!user) {
         return <Navigate to="/login" replace />;
     }
 
-    // Rol no permitido
+    
     if (allowedRoles && !allowedRoles.includes(user.role)) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/admin-users" replace />;
     }
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
         return <Navigate to="/403" replace />;
     }
 
-    // Acceso permitido
     return children;
 }
 

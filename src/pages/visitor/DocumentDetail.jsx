@@ -8,7 +8,6 @@ function DocumentDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // Conectar con el backend luego
     const documento = {
         id,
         titulo: 'Acta de Independencia',

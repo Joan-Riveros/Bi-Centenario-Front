@@ -8,7 +8,7 @@ import AdminLayout from './layouts/AdminLayout.jsx';
 
 import HomePage from './pages/HomePage.jsx';
 import Login from './pages/Login.jsx';
-import Register from './pages/Register.jsx'; 
+import Register from './pages/Register.jsx';
 import RecoverPassword from './pages/RecoverPassword.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import UserProfile from './pages/profile/UserProfile.jsx';
@@ -24,6 +24,7 @@ import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import AccessDenied from './pages/AccessDenied.jsx';
 
 import SearchDocuments from './pages/search/SearchDocuments.jsx';
+import Verify2FAPage from './pages/Verify2FAPage.jsx';
 
 function AppRoutes() {
   return (
@@ -34,14 +35,25 @@ function AppRoutes() {
       <Route path="/recover-password" element={<MainLayout><RecoverPassword /></MainLayout>} />
       <Route path="/reset-password" element={<MainLayout><ResetPassword /></MainLayout>} />
       <Route path="/403" element={<MainLayout><AccessDenied /></MainLayout>} />
-      <Route path="/documento/:id" element={<MainLayout><DocumentDetail /></MainLayout>} />    
-      <Route path="/search" element={<MainLayout><SearchDocuments /></MainLayout>}/>
-      <Route path="/admin/upload" element={<AdminLayout><UploadDocument /></AdminLayout>} />
+      <Route path="/documento/:id" element={<MainLayout><DocumentDetail /></MainLayout>} />
+      <Route path="/search" element={<MainLayout><SearchDocuments /></MainLayout>} />
 
+      
+      <Route path="/verify-2fa" element={<MainLayout><Verify2FAPage /></MainLayout>} />
+
+      {/* Rutas de Admin */}
+      <Route
+        path="/admin/upload"
+        element={
+          <ProtectedRoute allowedRoles={['administrador']}> {/* Asumo que necesitas rol Admin */}
+            <AdminLayout><UploadDocument /></AdminLayout>
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/admin-users"
         element={
-          <ProtectedRoute allowedRoles={['Admin']}>
+          <ProtectedRoute allowedRoles={['administrador']}>
             <AdminLayout>
               <AdminUsers />
             </AdminLayout>
@@ -49,10 +61,11 @@ function AppRoutes() {
         }
       />
 
+      {/* Rutas de Investigador */}
       <Route
         path="/investigador"
         element={
-          <ProtectedRoute allowedRoles={['Investigador']}>
+          <ProtectedRoute allowedRoles={['Investigador', 'administrador']}> {/* A menudo Admins pueden acceder a vistas de otros roles */}
             <MainLayout>
               <InvestigadorDashboard />
             </MainLayout>
@@ -60,16 +73,18 @@ function AppRoutes() {
         }
       />
 
+      {/* Ruta de Perfil */}
       <Route
         path="/profile"
         element={
-          <ProtectedRoute allowedRoles={['Admin', 'Investigador', 'Visitante']}>
+          <ProtectedRoute allowedRoles={['administrador', 'Investigador', 'Visitante']}>
             <MainLayout>
               <UserProfile />
             </MainLayout>
           </ProtectedRoute>
         }
       />
+      {/* <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} /> */}
     </Routes>
   );
 }
