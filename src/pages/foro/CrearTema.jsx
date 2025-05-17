@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/Button';
-import axios from 'axios';
+import { getForumCategories, createTopic } from '../../services/forumService';
 
 function CrearTema() {
     const { user } = useAuth();
@@ -21,8 +21,8 @@ function CrearTema() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get('/forum/categories/');
-            setCategories(res.data);
+            const res = await getForumCategories();
+            setCategories(res);
         } catch (err) {
             console.error('Error al cargar categorías', err);
         }
@@ -40,12 +40,11 @@ function CrearTema() {
         setIsLoading(true);
 
         try {
-            await axios.post('/forum/topics/', {
+            await createTopic({
                 title,
                 content,
-                category_: parseInt(categoryId),
+                category_id: parseInt(categoryId),
             });
-
             navigate('/foro'); 
         } catch (err) {
             console.error('Error al crear el tema', err);

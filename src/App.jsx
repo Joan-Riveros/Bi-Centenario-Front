@@ -91,7 +91,7 @@ function AppRoutes() {
       <Route
         path="/foro/nuevo"
         element={
-          <ProtectedRoute allowedRoles={['Admin', 'Investigador', 'Visitante']}>
+          <ProtectedRoute allowedRoles={['administrador', 'Investigador', 'Visitante']}>
             <MainLayout>
               <CrearTema />
             </MainLayout>
