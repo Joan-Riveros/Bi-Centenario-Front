@@ -18,6 +18,11 @@ import UploadDocument from './pages/admin/UploadDocument.jsx';
 
 import DocumentDetail from './pages/visitor/DocumentDetail';
 
+import Foro from './pages/foro/Foro.jsx';
+import ForoCategoria from './pages/foro/ForoCategoria.jsx';
+import ForoDetalle from './pages/foro/ForoDetalle.jsx';
+import CrearTema from './pages/foro/CrearTema';
+
 import InvestigadorDashboard from './pages/investigador/InvestigadorDashboard.jsx';
 
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
@@ -36,16 +41,17 @@ function AppRoutes() {
       <Route path="/reset-password" element={<MainLayout><ResetPassword /></MainLayout>} />
       <Route path="/403" element={<MainLayout><AccessDenied /></MainLayout>} />
       <Route path="/documento/:id" element={<MainLayout><DocumentDetail /></MainLayout>} />
+      <Route path="/foro" element={<MainLayout><Foro /></MainLayout>} />
+      <Route path="/foro/categoria/:categoryId" element={<ForoCategoria />} />
+      <Route path="/foro/:id" element={<ForoDetalle />} />
       <Route path="/search" element={<MainLayout><SearchDocuments /></MainLayout>} />
-
       
       <Route path="/verify-2fa" element={<MainLayout><Verify2FAPage /></MainLayout>} />
 
-      {/* Rutas de Admin */}
       <Route
         path="/admin/upload"
         element={
-          <ProtectedRoute allowedRoles={['administrador']}> {/* Asumo que necesitas rol Admin */}
+          <ProtectedRoute allowedRoles={['administrador']}>
             <AdminLayout><UploadDocument /></AdminLayout>
           </ProtectedRoute>
         }
@@ -61,11 +67,10 @@ function AppRoutes() {
         }
       />
 
-      {/* Rutas de Investigador */}
       <Route
         path="/investigador"
         element={
-          <ProtectedRoute allowedRoles={['Investigador', 'administrador']}> {/* A menudo Admins pueden acceder a vistas de otros roles */}
+          <ProtectedRoute allowedRoles={['Investigador', 'administrador']}>
             <MainLayout>
               <InvestigadorDashboard />
             </MainLayout>
@@ -73,7 +78,6 @@ function AppRoutes() {
         }
       />
 
-      {/* Ruta de Perfil */}
       <Route
         path="/profile"
         element={
@@ -84,7 +88,16 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      {/* <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} /> */}
+      <Route
+        path="/foro/nuevo"
+        element={
+          <ProtectedRoute allowedRoles={['Admin', 'Investigador', 'Visitante']}>
+            <MainLayout>
+              <CrearTema />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

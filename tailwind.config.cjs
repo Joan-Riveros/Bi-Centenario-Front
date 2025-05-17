@@ -7,30 +7,32 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+      },
       colors: {
-        primary: '#C14600',
-        secondary: '#FF9D23',
-        lightBrown: '#E5D0AC',
-        paleYellow: '#FEF9E1',
-
-        darkBase: '#1A1A1A',
-        darkSecondary: '#2D2D2D',
-        textDark: '#EAEAEA',
-        darkAccent: '#FF9D23',
-        darkHighlight: '#C14600',
+        primary: '#0F4C75',
+        secondary: '#3282B8',
+        accent: '#BBE1FA',
+        base: '#1B262C',
+        light: '#F1F5F9', 
+        darkSecondary: '#0D1B2A', 
+      },
+      animation: {
+        gradient: 'gradient 15s ease infinite',
+        fadeIn: 'fadeIn 1.2s ease-out both',
+      },
+      keyframes: {
+        gradient: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+        fadeIn: {
+          '0%': { opacity: 0, transform: 'translateY(10px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
       },
     },
   },
   plugins: [],
-  extend: {
-    animation: {
-      fadeIn: 'fadeIn 1.2s ease-out both',
-    },
-    keyframes: {
-      fadeIn: {
-        '0%': { opacity: 0, transform: 'translateY(10px)' },
-        '100%': { opacity: 1, transform: 'translateY(0)' },
-      },
-    },
-  }  
-}
+};

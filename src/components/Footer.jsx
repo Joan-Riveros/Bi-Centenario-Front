@@ -23,18 +23,16 @@ function Footer() {
                             <li><Link to="/" className="text-neutral-600 dark:text-neutral-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition">Inicio</Link></li>
                             <li><Link to="/login" className="text-neutral-600 dark:text-neutral-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition">Login</Link></li>
                             <li><Link to="/register" className="text-neutral-600 dark:text-neutral-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition">Registro</Link></li>
-                           
                         </ul>
                     </div>
 
                     <div className="flex flex-col items-center sm:items-start">
                         <h3 className="text-neutral-800 dark:text-neutral-100 font-semibold mb-3 text-base">
-              
                             Redes Sociales
                         </h3>
 
                         <div className="text-neutral-700 dark:text-neutral-300"> 
-                           <SocialLinks />
+                            <SocialLinks />
                         </div>
                     </div>
 

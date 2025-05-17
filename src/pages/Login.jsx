@@ -45,7 +45,7 @@ function Login() {
 
   return (
     <AuthWrapper>
-      <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+      <h2 className="text-2xl font-bold text-center text-primary dark:text-accent mb-6 font-sans">
         Iniciar Sesión
       </h2>
 
@@ -58,7 +58,7 @@ function Login() {
             name="email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:text-white"
             placeholder="ejemplo@correo.com"
             required
             disabled={isLoading}
@@ -72,7 +72,7 @@ function Login() {
             name="password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:text-white"
             placeholder="********"
             required
             disabled={isLoading}
@@ -83,7 +83,7 @@ function Login() {
         </div>
 
         <div className="text-right">
-          <Link to="/recover-password" className="text-sm text-primary hover:text-primary-hover transition-colors">
+          <Link to="/recover-password" className="text-sm text-secondary hover:text-accent transition-colors">
             ¿Olvidaste tu contraseña?
           </Link>
         </div>

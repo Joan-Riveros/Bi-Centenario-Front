@@ -67,7 +67,6 @@ function Register() {
         password: formData.password,
       };
 
-     
       const registeredUser = await authService.register(userData);
 
       if (registeredUser && registeredUser.id) {
@@ -79,7 +78,7 @@ function Register() {
           navigate('/login'); 
         }, 2000);
       } else {
- 
+
         setError('Hubo un problema con el registro. Intentalo de nuevo');
       }
     } catch (err) {
@@ -95,7 +94,6 @@ function Register() {
           .map(d => `${d.loc[d.loc.length - 1]}: ${d.msg}`) 
           .join('; ');
       } else if (err && err.message) {
-     
         errorMessage = err.message;
       }
       setError(errorMessage);
@@ -107,7 +105,7 @@ function Register() {
 
   return (
     <AuthWrapper>
-      <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+      <h2 className="text-2xl font-bold text-center text-primary dark:text-accent mb-6">
         Crear Cuenta
       </h2>
 
@@ -122,7 +120,7 @@ function Register() {
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             placeholder="Tu nombre completo"
             required
             disabled={isLoading}
@@ -130,13 +128,15 @@ function Register() {
         </div>
 
         <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</label>
+          <label className="block mb-2 text-sm font-medium text-primary dark:text-accent">
+            Correo Electrónico
+          </label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             placeholder="ejemplo@correo.com"
             required
             disabled={isLoading}
@@ -150,7 +150,7 @@ function Register() {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             placeholder="Mínimo 8 caracteres"
             required
             disabled={isLoading}
@@ -158,10 +158,10 @@ function Register() {
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-600 dark:text-gray-300 focus:outline-none" style={{ top: '3.1rem' }} // Ajustar si es necesario por la altura del label
+            className="absolute top-8 right-1 text-gray-600 dark:text-gray-300"
             disabled={isLoading}
           >
-            {showPassword ? <HiEyeOff size={24} /> : <HiEye size={24} />}
+            {showPassword ? <HiEyeOff size={23} /> : <HiEye size={23} />}
           </button>
         </div>
 
@@ -172,7 +172,7 @@ function Register() {
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             placeholder="********"
             required
             disabled={isLoading}
@@ -180,10 +180,10 @@ function Register() {
           <button
             type="button"
             onClick={toggleConfirmPasswordVisibility}
-            className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-600 dark:text-gray-300 focus:outline-none" style={{ top: '3.1rem' }} // Ajustar
+            className="absolute top-8 right-1 text-gray-600 dark:text-gray-300"
             disabled={isLoading}
           >
-            {showConfirmPassword ? <HiEyeOff size={24} /> : <HiEye size={24} />}
+            {showConfirmPassword ? <HiEyeOff size={23} /> : <HiEye size={23} />}
           </button>
         </div>
 
@@ -198,8 +198,8 @@ function Register() {
             required
             disabled={isLoading}
           />
-          <label htmlFor="termsAccepted" className="text-sm text-gray-700 dark:text-gray-300">
-            Acepto los <a href="/terminos-y-condiciones" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover">Términos y Condiciones</a>.
+          <label className="text-sm text-gray-700 dark:text-gray-300">
+            Acepto los <a href="#" className="text-primary hover:text-primary-hover">Términos y Condiciones</a>.
           </label>
         </div>
 
