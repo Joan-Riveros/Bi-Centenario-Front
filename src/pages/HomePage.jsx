@@ -8,7 +8,7 @@ import {
   CardContainer as ThreeDCardContainer,
   CardBody as ThreeDCardBody,
   CardItem as ThreeDCardItem
-} from '../components/ui/3d-card'; /
+} from '../components/ui/3d-card'; 
 
 
 import {

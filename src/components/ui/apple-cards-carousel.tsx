@@ -293,7 +293,7 @@ export const BlurImage = ({
       //height={height}
       loading="lazy"
       decoding="async"
-      alt={alt || "Imagen de fondo"} // Proporciona un alt text por defecto
+      alt={alt || "Imagen de fondo"} 
       {...rest}
     />
   );
