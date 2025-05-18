@@ -34,7 +34,7 @@ function Verify2FAPage() {
     setIsLoading(true);
 
     if (!twoFactorToken) {
-      setError("Error: Sesión de verificacion no valida. Intenta iniciar sesión de nuevo");
+      setError("Error: Sesion de verificacion no valida. Intenta iniciar sesion de nuevo");
       setIsLoading(false);
       navigate('/login'); 
       return;
@@ -71,11 +71,11 @@ function Verify2FAPage() {
 
         navigate('/');
       } else {
-        setError("Respuesta inesperada del servidor durante la verificación 2FA");
+        setError("Respuesta inesperada del servidor durante la verificacion 2FA");
       }
     } catch (err) {
       console.error("Error en la verificación 2FA:", err);
-      setError(err.detail || err.message || "Código de verificacion incorrecto o error del servidor");
+      setError(err.detail || err.message || "Codigo de verificacion incorrecto o error del servidor");
     } finally {
       setIsLoading(false);
     }
@@ -88,11 +88,11 @@ function Verify2FAPage() {
   return (
     <AuthWrapper>
       <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-4">
-        Verificación de Dos Pasos
+        Verificacion de Dos Pasos
       </h2>
       {userEmail && (
         <p className="text-center text-sm text-gray-600 dark:text-gray-300 mb-6">
-          Ingresa el código para la cuenta: <strong>{userEmail}</strong>
+          Ingresa el codigo para la cuenta: <strong>{userEmail}</strong>
         </p>
       )}
 
@@ -150,7 +150,7 @@ function Verify2FAPage() {
                 className="text-sm text-primary hover:text-primary-hover transition-colors underline disabled:text-gray-400 disabled:no-underline"
                 disabled={isLoading}
             >
-                {useBackupCode ? 'Usar código de aplicación autenticadora' : 'Usar un código de respaldo'}
+                {useBackupCode ? 'Usar codigo de aplicacion autenticadora' : 'Usar un codigo de respaldo'}
             </button>
         </div>
 
@@ -173,7 +173,7 @@ function Verify2FAPage() {
           className="w-full py-3 text-base"
           disabled={isLoading || (!useBackupCode && !totpCode) || (useBackupCode && !backupCode) }
         >
-          {isLoading ? 'Verificando...' : 'Verificar Código'}
+          {isLoading ? 'Verificando...' : 'Verificar Codigo'}
         </Button>
       </form>
     </AuthWrapper>

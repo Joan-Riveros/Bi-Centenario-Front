@@ -34,7 +34,7 @@ function Foro() {
     const fetchTopics = async (categoryId) => {
         setLoading(true);
         try {
-            const res = await getTopicsByCategory(categoryId, 10, 0); // limit=10, offset=0
+            const res = await getTopicsByCategory(categoryId, 10, 0); 
             setTopics(res);
         } catch (err) {
             console.error('Error al cargar temas del foro', err);
@@ -78,7 +78,7 @@ function Foro() {
                 {loading ? (
                     <p className="text-center col-span-2">Cargando temas...</p>
                 ) : topics.length === 0 ? (
-                    <p className="text-center col-span-2">No hay temas en esta categoría.</p>
+                    <p className="text-center col-span-2">No hay temas en esta categoria</p>
                 ) : (
                     topics.map(topic => (
                         <div
@@ -98,7 +98,7 @@ function Foro() {
                                 to={`/foro/${topic.id}`}
                                 className="inline-block mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline"
                             >
-                                Ver discusión →
+                                Ver discusion 
                             </Link>
                         </div>
                     ))

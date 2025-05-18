@@ -15,9 +15,8 @@ function ForoDetalle() {
 
   const fetchRespuestas = async () => {
   try {
-    // 🔧 Asegúrate de convertir id a número
-    const data = await getPostsByTopic(parseInt(id), 0, 20); // puedes ajustar el límite si lo necesitas
-    console.log("Respuestas obtenidas:", data); // debug opcional
+    const data = await getPostsByTopic(parseInt(id), 0, 20); 
+    console.log("Respuestas obtenidas:", data); 
     setRespuestas(data);
   } catch (err) {
     console.error("Error al obtener respuestas", err);
@@ -58,7 +57,7 @@ function ForoDetalle() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
       {loading ? (
-        <p className="text-gray-600 dark:text-gray-400">Cargando discusión...</p>
+        <p className="text-gray-600 dark:text-gray-400">Cargando discusion...</p>
       ) : (
         <>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">{tema?.title}</h1>
@@ -67,7 +66,7 @@ function ForoDetalle() {
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Respuestas</h2>
             {respuestas.length === 0 ? (
-              <p className="text-gray-600 dark:text-gray-400">Aún no hay respuestas.</p>
+              <p className="text-gray-600 dark:text-gray-400">Aun no hay respuestas</p>
             ) : (
               respuestas.map((r) => (
                 <div

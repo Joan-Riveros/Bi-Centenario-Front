@@ -12,7 +12,7 @@ function AccessDenied() {
                     Acceso Denegado
                 </h2>
                 <p className="text-gray-700 dark:text-gray-300 mb-6 max-w-md mx-auto">
-                    No tienes permiso para acceder a esta página. Verifica tus credenciales o contacta con un administrador.
+                    No tienes permiso para acceder a esta pagina. Verifica tus credenciales o contacta con un administrador.
                 </p>
 
                 <Link

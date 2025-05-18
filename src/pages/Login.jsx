@@ -98,7 +98,7 @@ function Login() {
 
         <div className="text-center mt-4 text-sm text-gray-700 dark:text-gray-300">
           ¿No tienes cuenta?{' '}
-          <Link to="/register" className="text-primary hover:text-primary-hover">Regístrate</Link>
+          <Link to="/register" className="text-primary hover:text-primary-hover">Registrate</Link>
         </div>
 
         <Link to="/" className="block text-center mt-4 text-sm text-primary hover:text-primary-hover transition-colors">

@@ -1,6 +1,6 @@
 import apiClient from './api';
 
-// Obtener categorías del foro
+// Obtener categorias del foro
 export const getForumCategories = async () => {
   try {
     const res = await apiClient.get('/forum/categories/');
@@ -12,7 +12,7 @@ export const getForumCategories = async () => {
 };
 
 
-// Obtener temas por categoría
+// Obtener temas por categoria
 export const getTopicsByCategory = async (categoryId, limit = 10, offset = 0) => {
   const res = await apiClient.get(`/forum/topics?category_id=${categoryId}&limit=${limit}&offset=${offset}`);
   return res.data;

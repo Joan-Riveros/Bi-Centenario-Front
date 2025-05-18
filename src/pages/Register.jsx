@@ -199,7 +199,7 @@ function Register() {
             disabled={isLoading}
           />
           <label className="text-sm text-gray-700 dark:text-gray-300">
-            Acepto los <a href="#" className="text-primary hover:text-primary-hover">Términos y Condiciones</a>.
+            Acepto los <a href="#" className="text-primary hover:text-primary-hover">Terminos y Condiciones</a>.
           </label>
         </div>
 

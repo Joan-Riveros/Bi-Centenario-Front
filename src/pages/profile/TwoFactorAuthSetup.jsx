@@ -91,7 +91,7 @@ function TwoFactorAuthSetup({ on2FAEnabled, onCancel }) {
           {currentStep === 1 && (
             <>
               <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                1. Escanea este codigo QR con tu aplicación de autenticacion (como Google Authenticator, Authy, etc.):
+                1. Escanea este codigo QR con tu aplicacion de autenticacion (como Google Authenticator, Authy, etc.):
               </p>
               <div className="flex justify-center my-4">
                 <img src={setupData.qr_code_image} alt="Código QR para 2FA" className="border dark:border-gray-500" />
@@ -108,7 +108,7 @@ function TwoFactorAuthSetup({ on2FAEnabled, onCancel }) {
                 2. Guarda estos codigos de respaldo en un lugar seguro.
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                Si pierdes acceso a tu aplicacion de autenticación, podrás usar uno de estos códigos para ingresar. Cada codigo solo puede usarse una vez.
+                Si pierdes acceso a tu aplicacion de autenticación, podras usar uno de estos códigos para ingresar. Cada codigo solo puede usarse una vez.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 p-3 bg-gray-100 dark:bg-gray-600 rounded mb-4 text-center">
                 {setupData.backup_codes.map((code) => (
@@ -139,7 +139,7 @@ function TwoFactorAuthSetup({ on2FAEnabled, onCancel }) {
                 3. Ingresa el código de 6 digitos de tu aplicacion de autenticación para verificar y habilitar 2FA:
               </p>
               <div>
-                <label htmlFor="totpCode" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Código TOTP</label>
+                <label htmlFor="totpCode" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Codigo TOTP</label>
                 <input
                   type="text"
                   id="totpCode"

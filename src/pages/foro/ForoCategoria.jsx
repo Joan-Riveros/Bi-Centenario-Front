@@ -30,7 +30,7 @@ function ForoCategoria() {
             {loading ? (
                 <p className="text-gray-600 dark:text-gray-400">Cargando temas...</p>
             ) : temas.length === 0 ? (
-                <p className="text-gray-600 dark:text-gray-400">No hay temas en esta categoría.</p>
+                <p className="text-gray-600 dark:text-gray-400">No hay temas en esta categoria</p>
             ) : (
                 <ul className="space-y-4">
                     {temas.map((tema) => (
@@ -43,7 +43,7 @@ function ForoCategoria() {
                                 to={`/foro/${tema.id}`}
                                 className="text-sm text-primary hover:underline font-medium"
                             >
-                                Ver discusión →
+                                Ver discusion 
                             </Link>
                         </li>
                     ))}

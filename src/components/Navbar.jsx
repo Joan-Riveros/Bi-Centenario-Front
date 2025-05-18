@@ -76,6 +76,19 @@ function Navbar() {
                         </li>
                     </>
                 )}
+                {user?.role === 'visitante' && (
+                    <>
+                        
+                        <li>
+                            <Link
+                                to="/profile"
+                                className="text-sky-100 hover:text-white font-medium text-base transition-all duration-300 px-3 py-2 rounded-lg hover:bg-sky-600/70 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-50"
+                            >
+                                Administración de usuarios
+                            </Link>
+                        </li>
+                    </>
+                )}
 
                 <li className="relative" ref={settingsRef}>
                     <button

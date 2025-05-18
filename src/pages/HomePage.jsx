@@ -65,6 +65,7 @@ const APPLE_CAROUSEL_DATA = [
         </div>
         ),
     },
+    
 ];
 
 

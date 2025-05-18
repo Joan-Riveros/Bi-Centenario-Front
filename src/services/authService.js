@@ -20,9 +20,9 @@ import apiClient from './api';
 
 /**
  * @typedef {Object} LoginResponse
- * @property {AccessTokenResponse} [tokenData] - Present if login is direct or 2FA is skipped
- * @property {TwoFactorChallengeResponse} [challengeData] - Present if 2FA is required
- * @property {boolean} requires2FA - True if 2FA challenge is issued
+ * @property {AccessTokenResponse} [tokenData] 
+ * @property {TwoFactorChallengeResponse} [challengeData] 
+ * @property {boolean} requires2FA 
  */
 
 /**
@@ -45,11 +45,11 @@ const login = async (credentials) => {
         requires2FA: false,
       };
     } else {
-      throw new Error("Respuesta inesperada del servidor durante el login.");
+      throw new Error("Respuesta inesperada del servidor durante el login");
     }
   } catch (error) {
     console.error('Login error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error de red o servidor." };
+    throw error.response?.data || { message: error.message || "Error de red o servidor" };
   }
 };
 
@@ -72,7 +72,7 @@ const verify2FALogin = async (verificationData) => {
     return response.data;
   } catch (error) {
     console.error('2FA Verification error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error de red o servidor." };
+    throw error.response?.data || { message: error.message || "Error de red o servidor" };
   }
 };
 
@@ -102,7 +102,7 @@ const register = async (userData) => {
     return response.data; 
   } catch (error) {
     console.error('Registration error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error de red o servidor." };
+    throw error.response?.data || { message: error.message || "Error de red o servidor" };
   }
 };
 
@@ -117,7 +117,6 @@ const register = async (userData) => {
  */
 
 /**
- * Fetches the current authenticated user's profile details.
  * @returns {Promise<UserProfileData>}
  */
 const getCurrentUserProfile = async () => {
@@ -126,7 +125,7 @@ const getCurrentUserProfile = async () => {
     return response.data;
   } catch (error) {
     console.error('Get current user profile error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error al obtener el perfil del usuario." };
+    throw error.response?.data || { message: error.message || "Error al obtener el perfil del usuario" };
   }
 };
 
@@ -139,7 +138,7 @@ const getCurrentUserProfile = async () => {
  */
 
 /**
- * Initiates the 2FA setup process for the current admin user.
+
  * @returns {Promise<TwoFactorSetupInitiateResponse>}
  */
 const initiate2FASetup = async () => {
@@ -148,7 +147,7 @@ const initiate2FASetup = async () => {
     return response.data;
   } catch (error) {
     console.error('Initiate 2FA setup error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error al iniciar la configuración de 2FA." };
+    throw error.response?.data || { message: error.message || "Error al iniciar la configuracion de 2FA" };
   }
 };
 
@@ -170,7 +169,7 @@ const verifyAndEnable2FA = async (verificationData) => {
     return response.data;
   } catch (error) {
     console.error('Verify and Enable 2FA error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error al verificar y habilitar 2FA." };
+    throw error.response?.data || { message: error.message || "Error al verificar y habilitar 2FA" };
   }
 };
 
@@ -189,24 +188,13 @@ const disable2FA = async () => {
     return response.data;
   } catch (error) {
     console.error('Disable 2FA error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error al deshabilitar 2FA." };
+    throw error.response?.data || { message: error.message || "Error al deshabilitar 2FA" };
   }
 };
 
-/*export const authService = {
-  login,
-  register,
-  verify2FALogin,
-  getCurrentUserProfile,
-  initiate2FASetup,
-  verifyAndEnable2FA,
-  disable2FA,
-};
-*/
 
 //recuperacion contrase;a
 /**
- * Requests a password reset email.
  * @param {string} email 
  * @returns {Promise<{msg: string}>} 
  */
@@ -217,13 +205,12 @@ const requestPasswordReset = async (email) => {
     return response.data;
   } catch (error) {
     console.error('Request password reset error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error al solicitar el reseteo de contraseña." };
+    throw error.response?.data || { message: error.message || "Error al solicitar el reseteo de contraseña" };
   }
 };
 
 /**
- * Resets the user's password using a token.
- * @param {string} token The password reset token.
+ * @param {string} token 
  * @param {string} newPassword 
  * @returns {Promise<{msg: string}>} 
  */
@@ -234,10 +221,29 @@ const confirmPasswordReset = async (token, newPassword) => {
     return response.data;
   } catch (error) {
     console.error('Confirm password reset error:', error.response?.data || error.message);
-    throw error.response?.data || { message: error.message || "Error al restablecer la contraseña." };
+    throw error.response?.data || { message: error.message || "Error al restablecer la contraseña" };
   }
 };
 
+
+/**
+ * @typedef {Object} UserProfileUpdateData
+ * @property {string} [nombre] 
+ * @property {string} [email] - no permitido
+ */
+/**
+ * @param {UserProfileUpdateData} profileData 
+ * @returns {Promise<UserProfileData>} 
+ */
+const updateUserProfile = async (profileUpdateData) => {
+  try {
+    const response = await apiClient.put('/users/me', profileUpdateData);
+    return response.data;
+  } catch (error) {
+    console.error('Update user profile error:', error.response?.data || error.message);
+    throw error.response?.data || { message: error.message || "Error al actualizar el perfil" };
+  }
+};
 
 export const authService = {
   login,
@@ -247,6 +253,7 @@ export const authService = {
   initiate2FASetup,
   verifyAndEnable2FA,
   disable2FA,
-  requestPasswordReset,   
-  confirmPasswordReset,   
+  requestPasswordReset,
+  confirmPasswordReset,
+  updateUserProfile, 
 };
