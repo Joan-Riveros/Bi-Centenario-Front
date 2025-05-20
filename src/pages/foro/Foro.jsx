@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { getForumCategories, getTopicsByCategory } from '../../services/forumService';
 
 function Foro() {
     const [categories, setCategories] = useState([]);
@@ -21,10 +21,10 @@ function Foro() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get('/forum/categories');
-            setCategories(res.data);
-            if (res.data.length > 0) {
-                setSelectedCategory(res.data[0].id);
+            const res = await getForumCategories();
+            setCategories(res);
+            if (res.length > 0) {
+                setSelectedCategory(res[0].id);
             }
         } catch (err) {
             console.error('Error al cargar categorías del foro', err);
@@ -34,8 +34,8 @@ function Foro() {
     const fetchTopics = async (categoryId) => {
         setLoading(true);
         try {
-            const res = await axios.get(`/forum/topics?category_id=${categoryId}&limit=10&offset=0`);
-            setTopics(res.data);
+            const res = await getTopicsByCategory(categoryId, 10, 0);
+            setTopics(res);
         } catch (err) {
             console.error('Error al cargar temas del foro', err);
         } finally {
@@ -48,17 +48,23 @@ function Foro() {
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-8 min-h-screen bg-white dark:bg-darkBase text-gray-900 dark:text-white">
             <h1 className="text-3xl font-bold text-center">Foro Bicentenario 🇧🇴</h1>
+
             {user && (
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-end mb-4 space-x-4">
                     <Link
                         to="/foro/nuevo"
                         className="bg-primary hover:bg-secondary text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
                     >
                         ➕ Crear nuevo tema
                     </Link>
+                    <Link
+                        to="/foro/categorias/nueva"
+                        className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
+                    >
+                        📂 Crear categoría
+                    </Link>
                 </div>
             )}
-
 
             <div className="flex justify-center mt-4">
                 <select

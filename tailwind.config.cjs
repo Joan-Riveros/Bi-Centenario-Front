@@ -18,10 +18,6 @@ module.exports = {
         light: '#F1F5F9', 
         darkSecondary: '#0D1B2A', 
       },
-      animation: {
-        gradient: 'gradient 15s ease infinite',
-        fadeIn: 'fadeIn 1.2s ease-out both',
-      },
       keyframes: {
         gradient: {
           '0%, 100%': { backgroundPosition: '0% 50%' },
@@ -33,16 +29,15 @@ module.exports = {
         },
       },
       animation: {
+        gradient: 'gradient 10s ease infinite',
         fadeIn: 'fadeIn 1.2s ease-out both',
       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: 0, transform: 'translateY(10px)' },
-          '100%': { opacity: 1, transform: 'translateY(0)' },
-        },
+      backgroundImage: {
+        'light-gradient': 'linear-gradient(135deg, #ffffff, #f1f5f9, #e2e8f0)',
+        'dark-gradient': 'linear-gradient(135deg, #0F4C75, #1B262C, #3F0D99)',
       },
-      fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+      backgroundSize: {
+        'full': '400% 400%',
       },
     },
   },

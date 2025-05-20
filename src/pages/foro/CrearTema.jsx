@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/Button';
-import axios from 'axios';
+import { getForumCategories, createTopic } from '../../services/forumService';
 
 function CrearTema() {
     const { user } = useAuth();
@@ -21,10 +21,10 @@ function CrearTema() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get('/forum/categories/');
-            setCategories(res.data);
+            const res = await getForumCategories();
+            setCategories(res);
         } catch (err) {
-            console.error('Error al cargar categorías', err);
+            console.error('Error al cargar categorias', err);
         }
     };
 
@@ -33,19 +33,18 @@ function CrearTema() {
         setError('');
 
         if (!title.trim() || !content.trim() || !categoryId) {
-            setError('Todos los campos son obligatorios.');
+            setError('Todos los campos son obligatorios');
             return;
         }
 
         setIsLoading(true);
 
         try {
-            await axios.post('/forum/topics/', {
+            await createTopic({
                 title,
                 content,
-                category_: parseInt(categoryId),
+                category_id: parseInt(categoryId),
             });
-
             navigate('/foro'); 
         } catch (err) {
             console.error('Error al crear el tema', err);
@@ -65,7 +64,7 @@ function CrearTema() {
 
     return (
         <div className="max-w-3xl mx-auto p-6 space-y-6 text-gray-900 dark:text-white">
-            <h1 className="text-2xl font-bold">Crear nuevo tema 🧵</h1>
+            <h1 className="text-2xl font-bold">Crear nuevo tema </h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -93,14 +92,14 @@ function CrearTema() {
                 </div>
 
                 <div>
-                    <label className="block mb-1 font-medium">Categoría</label>
+                    <label className="block mb-1 font-medium">Categoria</label>
                     <select
                         value={categoryId}
                         onChange={(e) => setCategoryId(e.target.value)}
                         className="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-darkSecondary dark:text-white"
                         required
                     >
-                        <option value="">Selecciona una categoría</option>
+                        <option value="">Selecciona una categoria</option>
                         {categories.map((cat) => (
                             <option key={cat.id} value={cat.id}>
                                 {cat.name}

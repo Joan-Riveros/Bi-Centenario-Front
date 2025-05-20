@@ -8,9 +8,9 @@ export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('authToken')); 
-  const [isLoading, setIsLoading] = useState(true); 
-
+  const [token, setToken] = useState(null); 
+  const [isLoading, setIsLoading] = useState(false); 
+  
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
@@ -32,6 +32,7 @@ export function AuthProvider({ children }) {
     }
     setIsLoading(false);
   }, []);
+
 
   /**
    * @param {string} email

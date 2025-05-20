@@ -14,11 +14,8 @@ function AuthWrapper({ children }) {
                 <source src={fondoVideo} type="video/mp4" />
             </video>
 
-            {/* Contenido */}
-            <div className="flex items-center justify-center min-h-screen p-6 relative z-10">
-                <div className="w-full max-w-md bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90 rounded-lg shadow-lg p-8 backdrop-blur-sm">
-                    {children}
-                </div>
+            <div className="flex items-center justify-center min-h-screen p-6 relative z-10 w-full">
+                {children}
             </div>
         </div>
     );

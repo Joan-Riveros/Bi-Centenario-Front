@@ -16,9 +16,14 @@ function Button({
             shadow: 'shadow-secondary',
         },
         contrast: {
-            color: 'bg-white dark:bg-black',
-            border: 'border-gray-400',
-            shadow: 'shadow-gray-300 dark:shadow-gray-800',
+            color: 'bg-white dark:bg-base',
+            border: 'border-gray-300 dark:border-gray-600',
+            shadow: 'shadow-md',
+        },
+        neutral: {
+            color: 'bg-gray-200 dark:bg-black',
+            border: 'border-gray-300 dark:border-gray-700',
+            shadow: 'shadow-md dark:shadow',
         },
     };
 
@@ -30,7 +35,7 @@ function Button({
             onClick={onClick}
             disabled={disabled}
             className={clsx(
-                'cursor-pointer transition-all px-6 py-2 rounded-lg text-white font-medium', 'text-black dark:text-white',
+                'cursor-pointer transition-all px-6 py-2 rounded-lg font-medium',
                 color,
                 'text-black dark:text-white',
                 border,

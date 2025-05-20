@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import { getTopicsByCategory } from '../../services/forumService';
 
 function ForoCategoria() {
     const { categoryId } = useParams();
@@ -10,8 +10,8 @@ function ForoCategoria() {
     useEffect(() => {
         const fetchTemas = async () => {
             try {
-                const response = await axios.get(`/forum/topics?category_id=${categoryId}`);
-                setTemas(response.data);
+                const data = await getTopicsByCategory(categoryId);
+                setTemas(data);
             } catch (err) {
                 console.error("Error al cargar temas por categoría", err);
             } finally {
@@ -30,18 +30,20 @@ function ForoCategoria() {
             {loading ? (
                 <p className="text-gray-600 dark:text-gray-400">Cargando temas...</p>
             ) : temas.length === 0 ? (
-                <p className="text-gray-600 dark:text-gray-400">No hay temas en esta categoría.</p>
+                <p className="text-gray-600 dark:text-gray-400">No hay temas en esta categoria</p>
             ) : (
                 <ul className="space-y-4">
                     {temas.map((tema) => (
                         <li key={tema.id} className="bg-white dark:bg-darkSecondary p-4 rounded-lg shadow-md">
                             <h2 className="text-lg font-semibold text-gray-800 dark:text-white">{tema.title}</h2>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{tema.content.slice(0, 100)}...</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                {tema.content.slice(0, 100)}...
+                            </p>
                             <Link
                                 to={`/foro/${tema.id}`}
                                 className="text-sm text-primary hover:underline font-medium"
                             >
-                                Ver discusión →
+                                Ver discusion 
                             </Link>
                         </li>
                     ))}
