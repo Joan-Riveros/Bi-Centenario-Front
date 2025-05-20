@@ -16,7 +16,7 @@ import UserProfile from './pages/profile/UserProfile.jsx';
 import AdminUsers from './pages/admin/AdminUsers.jsx';
 import UploadDocument from './pages/admin/UploadDocument.jsx';
 
-import DocumentDetail from './pages/visitor/DocumentDetail';
+import DocumentDetail from './pages/Documents/DocumentDetail.jsx';
 
 import Foro from './pages/foro/Foro.jsx';
 import ForoCategoria from './pages/foro/ForoCategoria.jsx';
@@ -30,6 +30,10 @@ import AccessDenied from './pages/AccessDenied.jsx';
 
 import SearchDocuments from './pages/search/SearchDocuments.jsx';
 import Verify2FAPage from './pages/Verify2FAPage.jsx';
+
+import CrearCategoria from './pages/foro/CrearCategoria.jsx';
+
+
 
 function AppRoutes() {
   return (
@@ -98,6 +102,16 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/foro/categorias/nueva"
+        element={
+          <ProtectedRoute allowedRoles={['administrador']}>
+            <MainLayout>
+              <CrearCategoria />
+          </MainLayout>
+        </ProtectedRoute>
+      }
+    />
     </Routes>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import CommentSection from '../../components/CommentSection';
-import DocumentViewer from '../../components/DocumentViewer';
+import CommentSection from './CommentSection';
+import DocumentViewer from './DocumentViewer';
 import ejemploPDF from '../../assets/Joan_Riveros_2da_EvaluacionBackend.pdf';
 
 function DocumentDetail() {

@@ -20,6 +20,11 @@ function Button({
             border: 'border-gray-300 dark:border-gray-600',
             shadow: 'shadow-md',
         },
+        neutral: {
+            color: 'bg-gray-200 dark:bg-black',
+            border: 'border-gray-300 dark:border-gray-700',
+            shadow: 'shadow-md dark:shadow',
+        },
     };
 
     const { color, border, shadow } = variants[variant] || variants.primary;

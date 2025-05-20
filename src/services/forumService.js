@@ -45,3 +45,7 @@ export const createPost = async (data) => {
   return res.data;
 };
 
+export const createCategory = async (data) => {
+  const res = await apiClient.post('/forum/categories/', data);
+  return res.data;
+};

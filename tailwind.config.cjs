@@ -32,6 +32,19 @@ module.exports = {
           '100%': { opacity: 1, transform: 'translateY(0)' },
         },
       },
+      animation: {
+        gradient: 'gradient 10s ease infinite',
+      },
+      backgroundImage: {
+        'light-gradient': 'linear-gradient(135deg, #ffffff, #f1f5f9, #e2e8f0)',
+        'dark-gradient': 'linear-gradient(135deg, #0F4C75, #1B262C, #3F0D99)',
+      },
+      backgroundSize: {
+        'full': '400% 400%',
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+      },
     },
   },
   plugins: [],

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx'; 
+import { useAuth } from '../context/AuthContext.jsx';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
-import AuthWrapper from '../components/AuthWrapper.jsx'; 
-import Button from '../components/Button.jsx';         
+import AuthWrapper from '../components/AuthWrapper.jsx';
+import Button from '../components/Button.jsx';
 
 function Login() {
-  const { login } = useAuth(); 
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -22,7 +22,6 @@ function Login() {
     setError('');
     setIsLoading(true);
 
-
     const loginResult = await login(email, password);
 
     setIsLoading(false);
@@ -32,8 +31,8 @@ function Login() {
         navigate('/verify-2fa', {
           state: {
             twoFactorToken: loginResult.twoFactorToken,
-            email: email 
-          }
+            email: email,
+          },
         });
       } else {
         navigate('/');
@@ -45,66 +44,94 @@ function Login() {
 
   return (
     <AuthWrapper>
-      <h2 className="text-2xl font-bold text-center text-primary dark:text-accent mb-6 font-sans">
-        Iniciar Sesión
-      </h2>
+      <div className="max-w-lg w-full mx-auto p-10 bg-white dark:bg-base rounded-xl shadow-lg animate-fadeIn">
+        <h2 className="text-3xl font-bold text-center text-primary dark:text-accent mb-6 font-sans">
+          Iniciar Sesión
+        </h2>
 
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</label>
-          <input
-            type="email"
-            name="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:text-white"
-            placeholder="ejemplo@correo.com"
-            required
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          {error && (
+            <p className="text-red-500 text-sm text-center bg-red-100 dark:bg-red-900 dark:text-red-300 py-2 rounded-md">
+              {error}
+            </p>
+          )}
+
+          <div>
+            <label className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Correo Electrónico
+            </label>
+            <input
+              type="email"
+              name="email"
+              autoComplete="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-light dark:bg-base text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary"
+              placeholder="ejemplo@correo.com"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className="relative">
+            <label className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Contraseña
+            </label>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-light dark:bg-base text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary"
+              placeholder="****"
+              required
+              disabled={isLoading}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-1 top-[31px] text-gray-600 dark:text-gray-300 hover:text-primary"
+              disabled={isLoading}
+              aria-label="Mostrar u ocultar contraseña"
+            >
+              {showPassword ? <HiEyeOff size={26} /> : <HiEye size={26} />}
+            </button>
+          </div>
+
+          <div className="text-right text-sm">
+            <Link
+              to="/recover-password"
+              className="text-secondary hover:text-accent transition-colors"
+            >
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
+
+          <Button
+            type="submit"
+            variant="neutral"
+            className="w-full py-3 text-base"
             disabled={isLoading}
-          />
-        </div>
+          >
+            {isLoading ? 'Ingresando...' : 'Entrar'}
+          </Button>
 
-        <div className="relative">
-          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-base dark:border-gray-600 dark:text-white"
-            placeholder="********"
-            required
-            disabled={isLoading}
-          />
-          <button type="button" onClick={togglePasswordVisibility} className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-600 dark:text-gray-300 focus:outline-none" style={{ top: '3.1rem' }} disabled={isLoading}>
-            {showPassword ? <HiEyeOff size={24} /> : <HiEye size={24} />}
-          </button>
-        </div>
+          <div className="text-center text-sm text-gray-700 dark:text-gray-300 mt-4">
+            ¿No tienes cuenta?{' '}
+            <Link to="/register" className="text-primary hover:text-accent font-medium">
+              Regístrate
+            </Link>
+          </div>
 
-        <div className="text-right">
-          <Link to="/recover-password" className="text-sm text-secondary hover:text-accent transition-colors">
-            ¿Olvidaste tu contraseña?
+          <Link
+            to="/"
+            className="block text-center mt-4 text-sm text-primary hover:text-accent transition-colors"
+          >
+            ⬅️ Volver a Home
           </Link>
-        </div>
-
-        <Button
-          type="submit"
-          className="w-full py-3 text-base"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Ingresando...' : 'Entrar'}
-        </Button>
-
-        <div className="text-center mt-4 text-sm text-gray-700 dark:text-gray-300">
-          ¿No tienes cuenta?{' '}
-          <Link to="/register" className="text-primary hover:text-primary-hover">Registrate</Link>
-        </div>
-
-        <Link to="/" className="block text-center mt-4 text-sm text-primary hover:text-primary-hover transition-colors">
-          ⬅️ Volver a Home
-        </Link>
-      </form>
+        </form>
+      </div>
     </AuthWrapper>
   );
 }

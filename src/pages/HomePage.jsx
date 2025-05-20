@@ -65,7 +65,38 @@ const APPLE_CAROUSEL_DATA = [
         </div>
         ),
     },
-    
+    {
+        category: "Joan of Arc",
+        title: "Joan was born to a propertied peasant family at Domrémy in northeast France",
+        src: "https://upload.wikimedia.org/wikipedia/commons/7/75/Albert_Lynch_-_Jeanne_d%27Arc.jpg", 
+        content: (
+        <div className="p-4 md:p-6 text-neutral-700 dark:text-neutral-200 space-y-3">
+            <h3 className="text-xl md:text-2xl font-semibold mb-3">Tejiendo la Cosmovisión</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Albert_Lynch_-_Jeanne_d%27Arc.jpg" alt="Detalle iconografía textil" className="rounded-md shadow w-full mb-3" />
+            <p className="text-sm md:text-base">
+                After Charles's coronation, Joan participated in the unsuccessful siege of Paris in September 1429 and the failed siege of La Charité in November.
+            </p>
+            <p className="text-xs italic">In 1456, an inquisitorial court reinvestigated Joan's trial and overturned the verdict, declaring that it was tainted by deceit and procedural errors</p>
+        </div>
+        ),
+    },
+    {
+        category: "Salvator Mundi",
+        title: "Leonardo da Vinci",
+        src: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Leonardo_da_Vinci%2C_Salvator_Mundi%2C_c.1500%2C_oil_on_walnut%2C_45.4_%C3%97_65.6_cm.jpg", 
+        content: (
+        <div className="p-4 md:p-6 text-neutral-700 dark:text-neutral-200 space-y-3">
+            <h3 className="text-xl md:text-2xl font-semibold mb-3">Tejiendo la Cosmovisión</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Leonardo_da_Vinci%2C_Salvator_Mundi%2C_c.1500%2C_oil_on_walnut%2C_45.4_%C3%97_65.6_cm.jpg" className="rounded-md shadow w-full mb-3" />
+            <p className="text-sm md:text-base">
+                Salvator Mundi es una pintura de Cristo como Salvator Mund
+            </p>
+            <p className="text-xs italic">a pintura sería una de las veinte obras conocidas de Leonardo </p>
+        </div>
+        ),
+    },
+
+
 ];
 
 
@@ -76,25 +107,25 @@ const appleCarouselItems = APPLE_CAROUSEL_DATA.map((card, index) => (
 
 function HomePage() {
     return (
-        <div className="p-6 max-w-7xl mx-auto space-y-16 bg-white dark:bg-darkBase min-h-screen transition-colors duration-300">
+        <div className="p-6 w-full mx-auto space-y-16 min-h-screen transition-colors duration-300 bg-light-gradient dark:bg-dark-gradient bg-full animate-gradient">
 
             <section className="text-center space-y-4 animation-fadeIn">
-                <h1 className="text-4xl font-bold text-gray-800 dark:text-textDark">
+                <h1 className="text-5xl md:text-6xl font-bold text-[#0F4C75] dark:text-neutral-100 max-w-2xl mx-auto">
                     Archivo Bicentenario de Bolivia
                 </h1>
-                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                <p className="text-xl md:text-2xl    text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                     Preservando la memoria de una nación, digitalizando el pasado para las futuras generaciones.
                 </p>
                 <Link to="/search">
-                    <Button variant="contrast" className="mt-4 text-lg px-8 py-3">
+                    <Button variant="contrast" className="mt-6 text-xl px-10 py-4">
                         Explorar Documentos
                     </Button>
                 </Link>
             </section>
 
             <section className="text-center space-y-4">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">¿Qué es el Repositorio?</h2>
-                <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">¿Qué es el Repositorio?</h2>
+                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                     Es una plataforma digital dedicada a conservar y difundir documentos históricos fundamentales del proceso de independencia y formación de Bolivia. Diseñado para investigadores, estudiantes y ciudadanos curiosos.
                 </p>
             </section>
@@ -104,7 +135,7 @@ function HomePage() {
                     className="inter-var" 
                     containerClassName="py-0" 
                 >
-                    <ThreeDCardBody className="bg-gray-100 dark:bg-darkSecondary relative group/card dark:hover:shadow-2xl dark:hover:shadow-sky-500/[0.2] border-black/[0.1] dark:border-white/[0.2] w-[calc(100vw-4rem)] sm:w-[35rem] md:w-[45rem] lg:w-[55rem] h-auto rounded-xl p-4 md:p-6 border">
+                    <ThreeDCardBody className="bg-gray-100 dark:bg-darkSecondary relative group/card dark:hover:shadow-2xl dark:hover:shadow-sky-500/[0.2] border-black/[0.1] dark:border-white/[0.2] w-full max-w-[90rem] px-4 sm:px-6 md:px-8 lg:px-10 h-auto rounded-xl p-4 md:p-6 border">
                         <ThreeDCardItem
                             translateZ="80"
                             className="w-full"
@@ -190,7 +221,7 @@ function HomePage() {
                 <AppleCarousel items={appleCarouselItems} />
             </section>
 
-            <section className="text-center mt-10">
+            <section className="text-center mt-10 bg-[#F5F7FA] dark:bg-[#0F4C75]/60 py-12 rounded-xl shadow-lg">
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
                     Empieza tu recorrido por la historia de Bolivia 🇧🇴
                 </h2>

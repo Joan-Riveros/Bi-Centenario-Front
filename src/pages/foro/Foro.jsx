@@ -34,7 +34,7 @@ function Foro() {
     const fetchTopics = async (categoryId) => {
         setLoading(true);
         try {
-            const res = await getTopicsByCategory(categoryId, 10, 0); 
+            const res = await getTopicsByCategory(categoryId, 10, 0);
             setTopics(res);
         } catch (err) {
             console.error('Error al cargar temas del foro', err);
@@ -50,12 +50,18 @@ function Foro() {
             <h1 className="text-3xl font-bold text-center">Foro Bicentenario 🇧🇴</h1>
 
             {user && (
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-end mb-4 space-x-4">
                     <Link
                         to="/foro/nuevo"
                         className="bg-primary hover:bg-secondary text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
                     >
                         ➕ Crear nuevo tema
+                    </Link>
+                    <Link
+                        to="/foro/categorias/nueva"
+                        className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
+                    >
+                        📂 Crear categoría
                     </Link>
                 </div>
             )}
@@ -78,7 +84,7 @@ function Foro() {
                 {loading ? (
                     <p className="text-center col-span-2">Cargando temas...</p>
                 ) : topics.length === 0 ? (
-                    <p className="text-center col-span-2">No hay temas en esta categoria</p>
+                    <p className="text-center col-span-2">No hay temas en esta categoría.</p>
                 ) : (
                     topics.map(topic => (
                         <div
@@ -98,7 +104,7 @@ function Foro() {
                                 to={`/foro/${topic.id}`}
                                 className="inline-block mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline"
                             >
-                                Ver discusion 
+                                Ver discusión →
                             </Link>
                         </div>
                     ))
