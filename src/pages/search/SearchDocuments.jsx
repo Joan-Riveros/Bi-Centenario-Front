@@ -1,42 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getDocuments } from '../../services/documentService'
 import { Link } from 'react-router-dom';
 import { AppleCardDocuments } from './AppleCardDocuments';
 import imgSearch from '../../assets/imgSearch.jpg'; 
-
-const documentos = [
-    {
-        id: 1,
-        titulo: "Acta de Independencia",
-        autor: "Asamblea 1825",
-        fecha: "1825",
-        etiquetas: ["Historia", "Independencia"],
-        imagen: "https://upload.wikimedia.org/wikipedia/commons/4/47/Acta_de_independencia_de_la_Rep%C3%BAblica_de_Bolivia.png"
-    },
-    {
-        id: 2,
-        titulo: "Carta de Simón Bolívar",
-        autor: "Simón Bolívar",
-        fecha: "1825",
-        etiquetas: ["Carta", "Bolívar"],
-        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGc-YrDY45rg-4UydjjJXBdz1avC7GJOylykZfC0X3Oy5QWtBUeMz7wsRVk7pEamvn2W8&usqp=CAU"
-    },
-    {
-        id: 3,
-        titulo: "Constitución de 1831",
-        autor: "Congreso Nacional",
-        fecha: "1831",
-        etiquetas: ["Constitución", "Ley"],
-        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo8_-lCRUXWmkquA5uldXnbJ5BdJEq551ODXsz7Jwtd_tK7Hw1MKCuIqYXToMsKX2lAVs&usqp=CAU"
-    },
-    {
-        id: 4,
-        titulo: "Decreto Supremo 1840",
-        autor: "Gobierno",
-        fecha: "1840",
-        etiquetas: ["Decreto", "Oficial"],
-        imagen: "https://lh4.googleusercontent.com/proxy/_cf0q5OBKkuhS1Z1HoFWzjGsMid6I8sMYGWbK0sV0ShFtCgeLTRWVhph4QYn930nUxESoBFCoidM9oE6u7MZ1_NWBK8jT4gSumvF5iAY0Zb5irXJ9yrq_I1WtwDy"
-    }
-];
 
 function SearchDocuments() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -44,6 +10,7 @@ function SearchDocuments() {
     const [filterTag, setFilterTag] = useState('');
     const [filterYear, setFilterYear] = useState('');
     const [showFilters, setShowFilters] = useState(false);
+    const [documentos, setDocumentos] = useState([]);
 
     const handleReset = () => {
         setSearchTerm('');
@@ -52,28 +19,43 @@ function SearchDocuments() {
         setFilterYear('');
     };
 
+    useEffect(() => {
+        const fetchDocuments = async () => {
+            try {
+                const data = await getDocuments();
+                setDocumentos(data);
+            } catch (error) {
+                console.error('Error al obtener documentos:', error);
+            }
+        };
+
+        fetchDocuments();
+    }, []);
+
     const filteredDocs = documentos.filter((doc) => {
-        const matchesTitle = doc.titulo.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesAuthor = filterAuthor ? doc.autor.toLowerCase().includes(filterAuthor.toLowerCase()) : true;
-        const matchesYear = filterYear ? doc.fecha === filterYear : true;
-        const matchesTag = filterTag ? doc.etiquetas.some(tag => tag.toLowerCase().includes(filterTag.toLowerCase())) : true;
+        const matchesTitle = doc.title.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesAuthor = filterAuthor ? doc.author?.toLowerCase().includes(filterAuthor.toLowerCase()) : true;
+        const matchesYear = filterYear ? new Date(doc.upload_date).getFullYear().toString() === filterYear : true;
+        const matchesTag = filterTag ? doc.tags?.some(tag => tag.name.toLowerCase().includes(filterTag.toLowerCase())) : true;
         return matchesTitle && matchesAuthor && matchesYear && matchesTag;
     });
 
     const cardData = filteredDocs.map((doc) => ({
-        src: doc.imagen,
-        title: doc.titulo,
-        category: `${doc.autor} • ${doc.fecha}`,
+        src: doc.cover_image_path
+            ? `${import.meta.env.VITE_API_BASE_URL}/documents/${doc.id}/cover/download`
+            : '/default-cover.jpg', // Ajusta si tienes imagen por defecto
+        title: doc.title,
+        category: `${doc.author || 'Autor desconocido'} • ${new Date(doc.upload_date).getFullYear()}`,
         content: (
-        <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+            <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
             <div className="flex flex-wrap gap-1">
-                {doc.etiquetas.map((tag, i) => (
-                    <span
-                        key={i}
-                        className="inline-block bg-[#BBE1FA] text-[#0F4C75] dark:bg-[#3282B8] dark:text-white text-xs font-medium px-2 py-1 rounded-full"
-                    >
-                        #{tag}
-                    </span>
+                {(doc.tags || []).map((tag, i) => (
+                <span
+                    key={i}
+                    className="inline-block bg-[#BBE1FA] text-[#0F4C75] dark:bg-[#3282B8] dark:text-white text-xs font-medium px-2 py-1 rounded-full"
+                >
+                    #{tag.name}
+                </span>
                 ))}
             </div>
             <Link
@@ -82,8 +64,8 @@ function SearchDocuments() {
             >
                 Ver documento completo →
             </Link>
-        </div>
-        )
+            </div>
+        ),
     }));
 
     return (
