@@ -27,3 +27,8 @@ export const downloadDocumentCover = async (id) => {
     });
     return response.data;
 };
+
+// Preview de los docs
+export const getDocumentPreviewUrl = (id) => {
+    return `${import.meta.env.VITE_API_BASE_URL}/documents/${id}/preview`;
+};

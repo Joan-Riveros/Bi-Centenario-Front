@@ -11,12 +11,12 @@ function DocumentViewer({ file }) {
     });
 
     return (
-        <div className="mt-10 space-y-4">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
-                Vista tipo lector 🧾
+        <div className="mt-12 space-y-4">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-blue text-center">
+                Vista del Documento 📖
             </h2>
 
-            <div className="h-[80vh] border border-gray-300 dark:border-gray-700 rounded-lg shadow bg-white dark:bg-darkSecondary">
+            <div className="h-[80vh] rounded-lg border border-gray-300 dark:border-gray-600 shadow-lg overflow-hidden bg-white dark:bg-darkSecondary">
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                     <Viewer
                         fileUrl={file}

@@ -53,8 +53,8 @@ function Navbar() {
                             to="/foro"
                             className="text-sky-100 hover:text-white font-medium text-base transition-all duration-300 px-3 py-2 rounded-lg hover:bg-sky-600/70"
                         >
-                        Foro
-                            </Link>
+                            Foro
+                        </Link>
                     </li>
 
                     {user?.role === 'administrador' && (

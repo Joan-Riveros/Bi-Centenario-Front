@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getDocuments } from '../../services/documentService'
+import { getDocuments } from '../../services/documentServiceGet'
 import { Link } from 'react-router-dom';
 import { AppleCardDocuments } from './AppleCardDocuments';
 import imgSearch from '../../assets/imgSearch.jpg'; 
