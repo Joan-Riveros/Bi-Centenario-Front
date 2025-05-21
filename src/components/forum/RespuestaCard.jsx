@@ -1,11 +1,18 @@
 import React from 'react';
 
 function RespuestaCard({ respuesta }) {
+    const autor = respuesta.author?.nombre || respuesta.author?.email || "Anónimo";
+    const fecha = new Date(respuesta.created_at).toLocaleDateString();
+
     return (
-        <div className="bg-white dark:bg-darkSecondary p-4 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm transition-all">
-            <p className="text-sm text-gray-700 dark:text-gray-200">{respuesta.content}</p>
-            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                Publicado el {new Date(respuesta.created_at).toLocaleDateString()}
+        <div className="bg-white dark:bg-darkSecondary border border-gray-200 dark:border-gray-700 rounded-lg px-5 py-4 shadow-sm transition hover:shadow-md">
+            <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-primary dark:text-accent">{autor}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">{fecha}</span>
+            </div>
+
+            <p className="text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                {respuesta.content}
             </p>
         </div>
     );
