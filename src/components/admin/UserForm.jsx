@@ -12,7 +12,7 @@ function UserForm({ initialData, onSubmit, onCancel, isLoading, isEditMode = fal
     nombre: '',
     email: '',
     password: '',
-    role: 'VISITANTE',
+    role: 'visitante',
     is_active: true,
   });
   const [formError, setFormError] = useState('');
@@ -23,7 +23,7 @@ function UserForm({ initialData, onSubmit, onCancel, isLoading, isEditMode = fal
         nombre: initialData.nombre || '',
         email: initialData.email || '',
         password: '', 
-        role: initialData.role || 'VISITANTE',
+        role: initialData.role || 'visitante',
         is_active: initialData.is_active !== undefined ? initialData.is_active : true,
       });
     } else if (!isEditMode) { 
@@ -31,7 +31,7 @@ function UserForm({ initialData, onSubmit, onCancel, isLoading, isEditMode = fal
             nombre: initialData?.nombre || '',
             email: initialData?.email || '',
             password: initialData?.password || '', 
-            role: initialData?.role || 'VISITANTE',
+            role: initialData?.role || 'visitante',
             is_active: initialData?.is_active !== undefined ? initialData.is_active : true,
         });
     }
@@ -60,7 +60,7 @@ function UserForm({ initialData, onSubmit, onCancel, isLoading, isEditMode = fal
     const dataToSubmit = {
         nombre: formData.nombre.trim(),
         email: formData.email.trim(),
-        role: formData.role,
+        role: formData.role.toLowerCase(),
         is_active: formData.is_active,
     };
 

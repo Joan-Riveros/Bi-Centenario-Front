@@ -74,7 +74,7 @@ function AppRoutes() {
       <Route
         path="/investigador"
         element={
-          <ProtectedRoute allowedRoles={['Investigador', 'administrador']}>
+          <ProtectedRoute allowedRoles={['investigador', 'administrador']}>
             <MainLayout>
               <InvestigadorDashboard />
             </MainLayout>
