@@ -47,36 +47,40 @@ function Foro() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto p-6 space-y-8 min-h-screen bg-white dark:bg-darkBase text-gray-900 dark:text-white">
-            <h1 className="text-3xl font-bold text-center text-[#0F4C75] dark:text-[#BBE1FA]">Foro Bicentenario 🇧🇴</h1>
+        <div className="min-h-screen bg-light-gradient dark:bg-dark-gradient bg-full animate-gradient transition-all px-4 py-10">
+            <div className="max-w-6xl mx-auto p-6 space-y-8 bg-white dark:bg-[#c4c8da] rounded-xl shadow-xl text-gray-900 dark:text-white">
+                <h1 className="text-3xl font-bold text-center text-[#0F4C75] dark:text-[#0F4C75]">
+                    Foro Bicentenario 🇧🇴
+                </h1>
 
-            {user && (
-                <div className="flex justify-end mb-4 space-x-4">
-                    <Link
-                        to="/foro/nuevo"
-                        className="bg-primary hover:bg-secondary text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
-                    >
-                        ➕ Crear nuevo tema
-                    </Link>
-
-                    {user.role?.toLowerCase() === 'administrador' && (
+                {user && (
+                    <div className="flex justify-end mb-4 space-x-4">
                         <Link
-                            to="/foro/categorias/nueva"
-                            className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
+                            to="/foro/nuevo"
+                            className="bg-primary hover:bg-secondary text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
                         >
-                            📂 Crear categoría
+                            ➕ Crear nuevo tema
                         </Link>
-                    )}
-                </div>
-            )}
 
-            <CategoriaList
-                categories={categories}
-                selectedCategoryId={selectedCategory}
-                onSelect={setSelectedCategory}
-            />
+                        {user.role?.toLowerCase() === 'administrador' && (
+                            <Link
+                                to="/foro/categorias/nueva"
+                                className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
+                            >
+                                📂 Crear categoría
+                            </Link>
+                        )}
+                    </div>
+                )}
 
-            <TopicList topics={topics} loading={loading} />
+                <CategoriaList
+                    categories={categories}
+                    selectedCategoryId={selectedCategory}
+                    onSelect={setSelectedCategory}
+                />
+
+                <TopicList topics={topics} loading={loading} />
+            </div>
         </div>
     );
 }
