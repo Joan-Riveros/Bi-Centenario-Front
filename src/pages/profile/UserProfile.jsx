@@ -1,92 +1,100 @@
-// src/pages/profile/UserProfile.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
-import { authService } from '../../services/authService.js'; // Asegúrate que la ruta es correcta
+import { authService } from '../../services/authService.js';
 import TwoFactorAuthSetup from './TwoFactorAuthSetup.jsx';
- // Asegúrate que la ruta es correcta
-import Button from '../../components/Button.jsx'; // Asumiendo que tienes este componente
-import { FiUser, FiMail, FiLock, FiShield, FiCheckCircle, FiAlertTriangle, FiSettings} from 'react-icons/fi';
+import Button from '../../components/Button.jsx';
+import { FiUser, FiMail, FiLock, FiShield, FiCheckCircle, FiAlertTriangle, FiSettings, FiEdit, FiSave, FiX} from 'react-icons/fi';
 import { LayoutGrid } from '../../components/ui/LayoutGrid';
 
 function UserProfile() {
-    const { user: authUser, token } = useAuth(); // Usamos 'user' del contexto como base
-    const [profileData, setProfileData] = useState(null); // Para datos completos incluyendo 2FA status
-    const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+    const { user: authUser, token, updateAuthContextUser, isLoading: isAuthLoading } = useAuth();
+    const [profileData, setProfileData] = useState(null);
+    const [isLoadingProfile, setIsLoadingProfile] = useState(true); 
     const [show2FASetup, setShow2FASetup] = useState(false);
     const [profileError, setProfileError] = useState('');
-    const [actionMessage, setActionMessage] = useState({ type: '', text: ''}); // Para mensajes de habilitar/deshabilitar
+    const [actionMessage, setActionMessage] = useState({ type: '', text: '' });
+    const [isEditing, setIsEditing] = useState(false);
+    const [editableNombre, setEditableNombre] = useState('');
+    const [editError, setEditError] = useState('');
+    const [isSavingEdit, setIsSavingEdit] = useState(false);
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            if (token) { // Solo intentar si hay token (usuario logueado)
-                setIsLoadingProfile(true);
-                setProfileError('');
-                try {
-                    // Asumimos que getCurrentUserProfile devuelve { ..., is_2fa_enabled: boolean }
-                    const data = await authService.getCurrentUserProfile();
-                    setProfileData(data);
-                } catch (err) {
-                    console.error("Error fetching profile:", err);
-                    setProfileError(err.detail || err.message || "No se pudo cargar el perfil.");
-                    // Si falla la carga del perfil y tenemos authUser, usamos eso como fallback parcial
-                    if (authUser) {
-                        setProfileData({ ...authUser, is_2fa_enabled: false }); // Asumir 2FA deshabilitado si falla la carga
-                    }
-                } finally {
-                    setIsLoadingProfile(false);
+    const fetchProfileCallback = useCallback(async () => {
+        if (token) {
+            setIsLoadingProfile(true);
+            setProfileError('');
+            try {
+                const data = await authService.getCurrentUserProfile(); 
+                setProfileData(data);
+                setEditableNombre(data.nombre || ''); 
+            } catch (err) {
+                console.error("Error fetching profile:", err);
+                setProfileError(err.detail || err.message || "No se pudo cargar el perfil");
+                if (authUser) {
+                    setProfileData({ ...authUser, is_2fa_enabled: false, nombre: authUser.nombre || '' });
+                    setEditableNombre(authUser.nombre || '');
                 }
-            } else {
-                // Si no hay token, usamos el authUser (que podría ser null o datos decodificados básicos)
-                setProfileData(authUser); // Podría ser null si no está logueado
+            } finally {
                 setIsLoadingProfile(false);
             }
-        };
-        fetchProfile();
-    }, [token, authUser]); // Volver a cargar si el token o authUser (del contexto) cambian
-
-
-    const handleToggle2FASetup = () => {
-        setShow2FASetup(prev => !prev);
-        setActionMessage({ type: '', text: '' }); // Limpiar mensajes al abrir/cerrar
-    };
-
-    const handle2FAEnabled = () => {
-        setProfileData(prev => ({ ...prev, is_2fa_enabled: true }));
-        setShow2FASetup(false); // Ocultar el componente de setup
-        setActionMessage({ type: 'success', text: '¡Autenticación de Dos Factores habilitada exitosamente!' });
-    };
-    
-    const handle2FASetupCancelled = () => {
-        setShow2FASetup(false);
-        setActionMessage({ type: '', text: '' });
-    };
-
-    const handleDisable2FA = async () => {
-        if (!window.confirm("¿Estás seguro de que quieres deshabilitar la Autenticación de Dos Factores? Tu cuenta será menos segura.")) {
-            return;
-        }
-        setIsLoadingProfile(true); // Reutilizar isLoading para la acción
-        setActionMessage({ type: '', text: '' });
-        try {
-            const response = await authService.disable2FA();
-            setProfileData(prev => ({ ...prev, is_2fa_enabled: false }));
-            setActionMessage({ type: 'success', text: response.detail || "2FA deshabilitada correctamente." });
-        } catch (err) {
-            setActionMessage({ type: 'error', text: err.detail || err.message || "Error al deshabilitar 2FA." });
-        } finally {
+        } else if (!isAuthLoading) { 
+            setProfileData(null); 
             setIsLoadingProfile(false);
         }
+    }, [token, authUser, isAuthLoading]); 
+
+    useEffect(() => {
+        fetchProfileCallback();
+    }, [fetchProfileCallback]);
+
+    const handleToggleEdit = () => {
+        if (!isEditing && profileData) {
+            setEditableNombre(profileData.nombre); 
+            setEditError('');
+            setActionMessage({ type: '', text: '' }); 
+        }
+        setIsEditing(prev => !prev);
     };
 
-    // Fallback si no hay usuario aún (previene errores de lectura de propiedades)
-    // Usamos profileData si está disponible, sino authUser, sino un invitado.
-    const displayUser = profileData || authUser || {
-        nombre: 'Usuario Invitado',
-        email: 'correo@ejemplo.com',
-        role: 'VISITANTE', // Asegúrate que 'VISITANTE' es el valor correcto de tu enum UserRole
-        is_2fa_enabled: false,
+    const handleNombreChange = (e) => {
+        setEditableNombre(e.target.value);
     };
 
+    const handleProfileUpdateSubmit = async (e) => {
+        e.preventDefault();
+        if (!editableNombre.trim()) {
+            setEditError("El nombre no puede estar vacío.");
+            return;
+        }
+        setIsSavingEdit(true);
+        setEditError('');
+        setActionMessage({ type: '', text: '' });
+        try {
+            const updatedUserData = await authService.updateUserProfile({ nombre: editableNombre.trim() });
+
+            setProfileData(prevData => ({
+                ...prevData, 
+                id: updatedUserData.id, 
+                nombre: updatedUserData.nombre, 
+                email: updatedUserData.email, 
+                role: updatedUserData.role, 
+                is_active: updatedUserData.is_active, 
+            }));
+            updateAuthContextUser({ nombre: updatedUserData.nombre, email: updatedUserData.email }); 
+            setIsEditing(false);
+            setActionMessage({ type: 'success', text: '¡Nombre actualizado exitosamente!' });
+        } catch (err) {
+        setEditError(err.detail || err.message || "Error al actualizar el nombre");
+        } finally {
+        setIsSavingEdit(false);
+        }
+    };
+
+    const handleToggle2FASetup = () => { setShow2FASetup(prev => !prev); setActionMessage({ type: '', text: '' }); };
+    const handle2FAEnabled = () => { setProfileData(prev => ({ ...prev, is_2fa_enabled: true })); setShow2FASetup(false); setActionMessage({ type: 'success', text: '¡Autenticación de Dos Factores habilitada exitosamente!' }); };
+    const handle2FASetupCancelled = () => {  setShow2FASetup(false); setActionMessage({ type: '', text: '' }); };
+    const handleDisable2FA = async () => {  if (!window.confirm("¿Estás seguro de que quieres deshabilitar la Autenticación de Dos Factores? Tu cuenta será menos segura.")) { return; } setIsLoadingProfile(true); setActionMessage({ type: '', text: '' }); try { const response = await authService.disable2FA(); setProfileData(prev => ({ ...prev, is_2fa_enabled: false })); setActionMessage({ type: 'success', text: response.detail || "2FA deshabilitada correctamente." }); } catch (err) { setActionMessage({ type: 'error', text: err.detail || err.message || "Error al deshabilitar 2FA." }); } finally { setIsLoadingProfile(false); } };
+
+    const displayUser = profileData || authUser;
     const inicial = displayUser?.nombre?.[0]?.toUpperCase() || displayUser?.email?.[0]?.toUpperCase() || '?';
 
     if (isLoadingProfile && !profileData) {
@@ -97,7 +105,7 @@ function UserProfile() {
         return <div className="text-center p-10 text-red-500">{profileError}</div>;
     }
     
-    if (!authUser && !profileData) { // Si después de cargar, no hay usuario autenticado
+    if (!authUser && !profileData) {
         return <div className="text-center p-10 dark:text-gray-300">Por favor, inicia sesión para ver tu perfil.</div>;
     }
 
@@ -178,31 +186,74 @@ function UserProfile() {
                         <FiUser className="text-primary dark:text-accent" />
                         Perfil del Usuario
                     </h1>
+                    {actionMessage.text && (
+                        <div className={`p-3 rounded-md text-sm mb-6 ${
+                            actionMessage.type === 'success' ? 'bg-green-50 text-green-700 dark:bg-green-700 dark:text-green-50'
+                            : 'bg-red-50 text-red-700 dark:bg-red-700 dark:text-red-50'
+                        }`}>
+                            {actionMessage.text}
+                        </div>
+                        )}
 
-                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-8">
-                        <div className="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-tr from-primary to-accent text-white rounded-full flex items-center justify-center text-4xl font-bold shadow-lg ring-2 ring-accent">
-                        {inicial}
-                        </div>
-                        <div className="flex-1 space-y-3 text-center sm:text-left">
-                            <div className="flex items-center justify-center sm:justify-start gap-3 text-gray-800 dark:text-white">
-                                <FiUser className="text-xl text-primary dark:text-primary-light" />
-                                <span className="font-medium text-lg">{displayUser.nombre}</span>
+                        {editError && (
+                            <div className="p-3 rounded-md text-sm mb-6 bg-red-50 text-red-700 dark:bg-red-700 dark:text-red-50">
+                                {editError}
                             </div>
-                            <div className="flex items-center justify-center sm:justify-start gap-3 text-gray-600 dark:text-gray-300">
-                                <FiMail className="text-xl" />
-                                <span>{displayUser.email}</span>
+                    )}
+
+                    <form onSubmit={handleProfileUpdateSubmit}>
+                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-8">
+                            <div className="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-tr from-primary to-accent text-white rounded-full flex items-center justify-center text-4xl font-bold shadow-lg ring-2 ring-accent">
+                                {inicial}
                             </div>
-                            <div className="flex items-center justify-center sm:justify-start gap-3 text-gray-600 dark:text-gray-300">
-                                <FiLock className="text-xl" />
-                                <span className="capitalize">
-                                    Rol:
-                                    <span className="ml-2 inline-block text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full dark:bg-blue-700 dark:text-white">
-                                        {displayUser.role?.toLowerCase()}
+                            <div className="flex-1 space-y-3 text-center sm:text-left">
+                                <div className="flex items-center justify-center sm:justify-start gap-3 text-gray-800 dark:text-white">
+                                    <FiUser className="text-xl text-primary dark:text-primary-light" />
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            value={editableNombre}
+                                            onChange={handleNombreChange}
+                                            className="font-medium text-lg p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white focus:ring-primary focus:border-primary flex-grow"
+                                            disabled={isSavingEdit}
+                                        />
+                                    ) : (
+                                        <span className="font-medium text-lg">{displayUser.nombre}</span>
+                                    )}
+                                </div>
+                                <div className="flex items-center justify-center sm:justify-start gap-3 text-gray-600 dark:text-gray-300">
+                                    <FiMail className="text-xl" />
+                                    <span>{displayUser.email}</span>
+                                </div>
+                                <div className="flex items-center justify-center sm:justify-start gap-3 text-gray-600 dark:text-gray-300">
+                                    <FiLock className="text-xl" />
+                                    <span className="capitalize">
+                                        Rol:
+                                        <span className="ml-2 inline-block text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full dark:bg-blue-700 dark:text-white">
+                                            {displayUser.role?.toLowerCase()}
+                                        </span>
                                     </span>
-                                </span>
+                                </div>
                             </div>
+                            {!isEditing && (
+                                <Button type="button" onClick={handleToggleEdit} variant="icon" className="flex-shrink-0">
+                                    <FiEdit className="mr-1" /> Editar Nombre
+                                </Button>
+                            )}
                         </div>
-                    </div>
+
+                        {isEditing && (
+                            <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t dark:border-gray-600">
+                                <Button type="submit" variant="primary" className="w-full sm:w-auto" disabled={isSavingEdit}>
+                                    <FiSave className="mr-2" /> {isSavingEdit ? 'Guardando...' : 'Guardar Cambios'}
+                                </Button>
+                                <Button type="button" onClick={handleToggleEdit} variant="secondary" className="w-full sm:w-auto" disabled={isSavingEdit}>
+                                    <FiX className="mr-2" /> Cancelar
+                                </Button>
+                            </div>
+                        )}
+                    </form>
+
                     
                     {actionMessage.text && (
                         <div className={`p-3 rounded-md text-sm ${
@@ -213,7 +264,6 @@ function UserProfile() {
                         </div>
                     )}
 
-                    {/* Sección de Seguridad y 2FA solo para Administradores */}
                     {displayUser.role === 'administrador' && (
                         <div className="border-t border-gray-300 dark:border-gray-600 pt-6 space-y-4">
                             <h2 className="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">

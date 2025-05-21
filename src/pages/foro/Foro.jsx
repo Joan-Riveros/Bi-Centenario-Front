@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { getForumCategories, getTopicsByCategory } from '../../services/forumService';
+import CategoriaList from '../../components/forum/CategoriaList'
+import TopicList from '../../components/forum/TopicList'
 
 function Foro() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [topics, setTopics] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { user } = useAuth();
 
     useEffect(() => {
         fetchCategories();
@@ -43,11 +46,9 @@ function Foro() {
         }
     };
 
-    const { user } = useAuth();
-
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-8 min-h-screen bg-white dark:bg-darkBase text-gray-900 dark:text-white">
-            <h1 className="text-3xl font-bold text-center">Foro Bicentenario 🇧🇴</h1>
+            <h1 className="text-3xl font-bold text-center text-[#0F4C75] dark:text-[#BBE1FA]">Foro Bicentenario 🇧🇴</h1>
 
             {user && (
                 <div className="flex justify-end mb-4 space-x-4">
@@ -57,59 +58,25 @@ function Foro() {
                     >
                         ➕ Crear nuevo tema
                     </Link>
-                    <Link
-                        to="/foro/categorias/nueva"
-                        className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
-                    >
-                        📂 Crear categoría
-                    </Link>
+
+                    {user.role?.toLowerCase() === 'administrador' && (
+                        <Link
+                            to="/foro/categorias/nueva"
+                            className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition-all duration-300 shadow hover:shadow-lg"
+                        >
+                            📂 Crear categoría
+                        </Link>
+                    )}
                 </div>
             )}
 
-            <div className="flex justify-center mt-4">
-                <select
-                    value={selectedCategory || ''}
-                    onChange={(e) => setSelectedCategory(parseInt(e.target.value))}
-                    className="px-4 py-2 border rounded-md dark:bg-darkSecondary dark:text-white"
-                >
-                    {categories.map(cat => (
-                        <option key={cat.id} value={cat.id}>
-                            {cat.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <CategoriaList
+                categories={categories}
+                selectedCategoryId={selectedCategory}
+                onSelect={setSelectedCategory}
+            />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                {loading ? (
-                    <p className="text-center col-span-2">Cargando temas...</p>
-                ) : topics.length === 0 ? (
-                    <p className="text-center col-span-2">No hay temas en esta categoría.</p>
-                ) : (
-                    topics.map(topic => (
-                        <div
-                            key={topic.id}
-                            className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-darkSecondary hover:shadow-md transition-all"
-                        >
-                            <h2 className="text-xl font-semibold text-primary dark:text-darkAccent mb-2">
-                                {topic.title}
-                            </h2>
-                            <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
-                                {topic.content}
-                            </p>
-                            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                                Publicado el {new Date(topic.created_at).toLocaleDateString()}
-                            </p>
-                            <Link
-                                to={`/foro/${topic.id}`}
-                                className="inline-block mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline"
-                            >
-                                Ver discusión →
-                            </Link>
-                        </div>
-                    ))
-                )}
-            </div>
+            <TopicList topics={topics} loading={loading} />
         </div>
     );
 }

@@ -23,6 +23,7 @@ import Foro from './pages/foro/Foro.jsx';
 import ForoCategoria from './pages/foro/ForoCategoria.jsx';
 import ForoDetalle from './pages/foro/ForoDetalle.jsx';
 import CrearTema from './pages/foro/CrearTema';
+import CrearCategoria from './pages/foro/CrearCategoria.jsx';
 
 import InvestigadorDashboard from './pages/investigador/InvestigadorDashboard.jsx';
 
@@ -44,9 +45,8 @@ function AppRoutes() {
             <Route path="/documento/:id" element={<MainLayout><DocumentDetail /></MainLayout>} />
             <Route path="/foro" element={<MainLayout><Foro /></MainLayout>} />
             <Route path="/foro/categoria/:categoryId" element={<ForoCategoria />} />
-            <Route path="/foro/:id" element={<ForoDetalle />} />
+            <Route path="/foro/:id" element={<MainLayout><ForoDetalle /></MainLayout>} />
             <Route path="/search" element={<MainLayout><SearchDocuments /></MainLayout>} />
-            
             <Route path="/verify-2fa" element={<MainLayout><Verify2FAPage /></MainLayout>} />
 
             <Route
@@ -71,7 +71,7 @@ function AppRoutes() {
             <Route
                 path="/investigador"
                 element={
-                    <ProtectedRoute allowedRoles={['Investigador', 'administrador']}>
+                    <ProtectedRoute allowedRoles={['investigador', 'administrador']}>
                         <MainLayout>
                             <InvestigadorDashboard />
                         </MainLayout>
@@ -81,7 +81,7 @@ function AppRoutes() {
             <Route
                 path="/profile"
                 element={
-                    <ProtectedRoute allowedRoles={['administrador', 'Investigador', 'Visitante']}>
+                    <ProtectedRoute allowedRoles={['administrador', 'investigador', 'visitante']}>
                         <MainLayout>
                             <UserProfile />
                         </MainLayout>
@@ -91,9 +91,19 @@ function AppRoutes() {
             <Route
                 path="/foro/nuevo"
                 element={
-                    <ProtectedRoute allowedRoles={['Admin', 'Investigador', 'Visitante']}>
+                    <ProtectedRoute allowedRoles={['administrador', 'investigador', 'visitante']}>
                         <MainLayout>
                             <CrearTema />
+                        </MainLayout>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/foro/categorias/nueva"
+                element={
+                    <ProtectedRoute allowedRoles={['administrador']}>
+                        <MainLayout>
+                            <CrearCategoria />
                         </MainLayout>
                     </ProtectedRoute>
                 }

@@ -8,9 +8,9 @@ export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null); 
-  const [isLoading, setIsLoading] = useState(false); 
-  
+  const [token, setToken] = useState(localStorage.getItem('authToken')); 
+  const [isLoading, setIsLoading] = useState(true); 
+
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
     }
     setIsLoading(false);
   }, []);
-
 
   /**
    * @param {string} email
@@ -100,6 +99,10 @@ export function AuthProvider({ children }) {
     // window.location.href = '/login'; 
   };
 
+  const updateAuthContextUser = (newUserData) => {
+    setUser(prev => ({ ...prev, ...newUserData }));
+  };
+
   const value = {
     user,
     token,
@@ -108,6 +111,7 @@ export function AuthProvider({ children }) {
     logout,
     complete2FALogin, 
     isAuthenticated: !!token && !!user, 
+    updateAuthContextUser,
   };
 
   return (
