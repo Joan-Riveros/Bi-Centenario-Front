@@ -61,7 +61,7 @@ function Navbar() {
                         <>
                         <li>
                             <Link
-                                to="/admin/upload"
+                                to="/documentos/nuevo"
                                 className="text-sky-100 hover:text-white font-medium text-base transition-all duration-300 px-3 py-2 rounded-lg hover:bg-sky-600/70"
                             >
                                 Subir documento

@@ -40,6 +40,9 @@ const login = async (credentials) => {
         requires2FA: true,
       };
     } else if (response.data && response.data.access_token) {
+      //
+      localStorage.setItem("authToken", response.data.access_token);
+      //
       return {
         tokenData: response.data, 
         requires2FA: false,

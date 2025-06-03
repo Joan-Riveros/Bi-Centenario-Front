@@ -26,7 +26,7 @@ import CrearTema from './pages/foro/CrearTema';
 import CrearCategoria from './pages/foro/CrearCategoria.jsx';
 
 import InvestigadorDashboard from './pages/investigador/InvestigadorDashboard.jsx';
-
+import SubirDocumento from './pages/Documents/SubirDocumento.jsx';
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import AccessDenied from './pages/AccessDenied.jsx';
 
@@ -49,6 +49,8 @@ function AppRoutes() {
             <Route path="/search" element={<MainLayout><SearchDocuments /></MainLayout>} />
             <Route path="/verify-2fa" element={<MainLayout><Verify2FAPage /></MainLayout>} />
 
+            <Route path="/documentos/nuevo" element={<SubirDocumento />} />
+            
             <Route
                 path="/admin/upload"
                 element={
